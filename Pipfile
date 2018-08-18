@@ -25,6 +25,10 @@ matplotlib = "*"
 seaborn = "*"
 sklearn = "*"
 webcred = {editable = true, path = "."}
+gensim = "*"
+scikit-learn = "*"
+kpex = {git = "https://github.com/christophfeinauer/kpex"}
+stanfordcorenlp = "*"
 
 [dev-packages]
 

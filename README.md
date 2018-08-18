@@ -38,7 +38,7 @@ with correct values.
 
   - `$: unzip stanford-corenlp-full-2018-02-27.zip -d stanford-corenlp-full`
 
-- nltk packages:
+- In a python shell, install needed nltk packages:
 
     ```
     import nltk
