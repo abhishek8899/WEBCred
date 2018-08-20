@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+from flask import jsonify
 from flask import render_template
 from flask import request
 from utils.databases import Features
@@ -13,6 +14,7 @@ import os
 import requests
 import subprocess
 import time
+import warnings
 
 
 load_dotenv(dotenv_path='.env')
@@ -24,6 +26,15 @@ logging.basicConfig(
     datefmt='%m/%d/%Y %I:%M:%S %p',
     level=logging.INFO
 )
+
+
+def fxn():
+    warnings.warn("deprecated", DeprecationWarning)
+
+
+with warnings.catch_warnings():
+    warnings.simplefilter("ignore")
+    fxn()
 
 
 class Captcha(object):
@@ -52,14 +63,14 @@ def start():
     g_recaptcha_response = request.args.get('g-recaptcha-response', None)
     response_captcha = Captcha(ip=addr, resp=g_recaptcha_response)
 
-    if not response_captcha.check():
-        pass
-        # result = "Robot not allowed"
-        # return result
+    if not response_captcha.check() and addr != '127.0.0.1':
+        result = "Robot not allowed"
+
+        return result
 
     data = collectData(request)
 
-    return data
+    return jsonify(data)
 
 
 @app.route("/")
@@ -83,7 +94,6 @@ def collectData(request):
     except WebcredError as e:
         data['Error'] = {e.message}
 
-    # logger.info(data)
     return data
 
 

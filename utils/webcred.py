@@ -166,7 +166,7 @@ class Webcred(object):
             dump = False
             logger.debug(data['url'])
         finally:
-
+            # always return the final assess time.
             now = str((datetime.now() - now).total_seconds())
             data['assess_time'] = now
 
@@ -182,6 +182,12 @@ class Webcred(object):
             # prevent users to know of dump location
             del data['html']
             del data['text']
+            del data['_sa_instance_state']
+            del data['id']
+            del data['cookie']
+            del data['cookienorm']
+            del data['site']
+            del data['sitenorm']
 
             logger.debug(data['url'])
 

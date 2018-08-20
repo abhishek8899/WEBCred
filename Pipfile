@@ -7,7 +7,6 @@ name = "pypi"
 statistics = "*"
 "bs4" = "*"
 validators = "*"
-flask = "*"
 nltk = "*"
 requests = "*"
 yapf = "*"
@@ -29,6 +28,7 @@ gensim = "*"
 scikit-learn = "*"
 kpex = {git = "https://github.com/christophfeinauer/kpex"}
 stanfordcorenlp = "*"
+flask = "*"
 
 [dev-packages]
 
