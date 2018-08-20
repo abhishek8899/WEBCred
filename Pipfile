@@ -10,7 +10,6 @@ validators = "*"
 nltk = "*"
 requests = "*"
 yapf = "*"
-numpy = "*"
 "html2text" = "*"
 flask-sqlalchemy = "*"
 sqlalchemy = "*"
@@ -19,16 +18,21 @@ isort = "*"
 "flake8" = "*"
 arrow = "*"
 python-dotenv = "*"
-pandas = "*"
 matplotlib = "*"
 seaborn = "*"
 sklearn = "*"
 webcred = {editable = true, path = "."}
 gensim = "*"
-scikit-learn = "*"
 kpex = {git = "https://github.com/christophfeinauer/kpex"}
 stanfordcorenlp = "*"
 flask = "*"
+# solution to, some RUNTIME warning issue from scipy & scikit
+# export PIP_NO_BINARY=scikit-learn
+# export PIP_NO_BINARY=scipy
+# export PIP_NO_BINARY=ALL
+scikit-learn = "*"
+pandas = "*"
+numpy = "*"
 
 [dev-packages]
 

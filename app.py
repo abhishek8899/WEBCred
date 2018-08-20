@@ -14,7 +14,6 @@ import os
 import requests
 import subprocess
 import time
-import warnings
 
 
 load_dotenv(dotenv_path='.env')
@@ -26,15 +25,6 @@ logging.basicConfig(
     datefmt='%m/%d/%Y %I:%M:%S %p',
     level=logging.INFO
 )
-
-
-def fxn():
-    warnings.warn("deprecated", DeprecationWarning)
-
-
-with warnings.catch_warnings():
-    warnings.simplefilter("ignore")
-    fxn()
 
 
 class Captcha(object):
@@ -83,6 +73,9 @@ def page_not_found(e):
     return render_template('404.html'), 404
 
 
+# FIXME Robustness
+# TODO run collectdata through a child process,
+# which should be restarted, if mem excedes some (80%) limit
 def collectData(request):
 
     try:
@@ -112,16 +105,26 @@ def appinfo(url=None):
 
 
 if __name__ == "__main__":
-    # TODO: start standford-server from here
-    '''
-    cd stanford-corenlp-full-2018-02-27;
-    java -mx4g -cp "*" edu.stanford.nlp.pipeline.StanfordCoreNLPServer
-    -annotators "tokenize,ssplit,pos,lemma,parse,sentiment" -port
-    9000 -timeout 30000 --add-modules java.se.ee`
-    '''
-    app.run(
-        threaded=True,
-        host='0.0.0.0',
-        debug=False,
-        port=5050,
-    )
+
+    n = os.fork()
+    # TODO killing of parent process will kill the child but not vice-versa
+
+    # parent process
+    if n > 0:
+        app.run(
+            threaded=True,
+            host='0.0.0.0',
+            debug=False,
+            port=5050,
+        )
+
+    # child process
+    else:
+        run_corenlp_server = 'java -mx4g -cp ' \
+                             '"stanford-corenlp-full-2018-02-27/*" ' \
+                             'edu.stanford.nlp.pipeline.' \
+                             'StanfordCoreNLPServer' \
+                             ' -annotators "tokenize,ssplit,pos,lemma,parse,' \
+                             'sentiment" -port 9000 -timeout 30000' \
+                             ' --add-modules java.se.ee'
+        os.system(run_corenlp_server)

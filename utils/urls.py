@@ -8,7 +8,6 @@ from utils.essentials import WebcredError
 
 import arrow
 import copy
-import json
 import logging
 import re
 import requests
@@ -349,6 +348,9 @@ class Urlattributes(object):
         global normalizeCategory
         if not normalizedData:
             normalizedData = {}
+
+            # deprecated method of retrieving data from json dump
+            '''
             # read existing data
             old_data = 'data/json/data2.json'
             old_data = open(old_data, 'r').read()
@@ -380,7 +382,7 @@ class Urlattributes(object):
                 if metadata.get('Error'):
                     continue
                 data.append(metadata)
-
+            '''
             # get data from postgres
             db = Database(Features)
             data = db.getdbdata()

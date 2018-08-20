@@ -17,7 +17,6 @@ import sys
 import threading
 import traceback
 
-
 with open('data/essentials/weightage.json') as f:
     weightage_data = json.load(f)
 
