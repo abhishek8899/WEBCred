@@ -33,6 +33,7 @@ flask = "*"
 scikit-learn = "*"
 pandas = "*"
 numpy = "*"
+regex = "*"
 
 [dev-packages]
 
