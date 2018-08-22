@@ -81,7 +81,16 @@ class StanfordNLP:
         return tokens
 
 
-token_symbols = ['currency', 'date', 'scientific_notation']
+token_symbols = {
+    'currency': '',
+    'date': '',
+    'scientific_notation': '',
+    # TODO add more keywords to this
+    'shop': ['sell', 'buy', 'cart', 'purchase'],
+    'help': ['faq', 'help', 'support'],
+    # FIXME need improvisation here
+    'contact': ['email', 'phone', 'address'],
+}
 
 sNLP = StanfordNLP()
 
@@ -125,7 +134,7 @@ def get_matches(paragraph, regex_exp):
     ]
 
 
-def currency_regex():
+def currency_regex(**kwargs):
     '''
     **supported patterns**: All currency symbols
 
@@ -136,7 +145,7 @@ def currency_regex():
     return [currency_re.compile(r'\p{Sc}')]
 
 
-def date_regex():
+def date_regex(**kwargs):
     '''
     **supported patterns**: '2010/08/27', '2010/08-26', '2009-02-02',
     '20/8/2018', '20/8-2018', '20-8-2018', 'March 2018', 'March 20',
@@ -162,7 +171,12 @@ def date_regex():
     ]
 
 
-def scientific_notation_regex():
+def keywords_regex(**kwargs):
+
+    return [re.compile(re.escape(keys), re.X) for keys in kwargs['keywords']]
+
+
+def scientific_notation_regex(**kwargs):
     '''
     **supported patterns**:
     2.99 x 10^33; 3.14159 x 10E5, -1.23E99 | 1E0 | -9.999e-999,
@@ -228,21 +242,21 @@ def getSymbols(paragraph, dictsym=token_symbols):
     :return: count of occurrences of varied symbols
     '''
     symbols = {}
-    for token in token_symbols:
-        print token
+    for token in token_symbols.keys():
         func = token + '_regex'
-        symbols[token] = len(get_matches(paragraph, regex_exp=eval(func)()))
+        try:
+            eval(func)
+        except NameError:
+            # for generic regex match
+            func = 'keywords_regex'
+            eval(func)
+        symbols[token] = len(
+            get_matches(
+                paragraph, regex_exp=eval(func)(keywords=token_symbols[token])
+            )
+        )
 
     return symbols
-
-
-def getContactInfo(paragraph):
-    '''
-    :param paragraph: Input could be word, sentence, paragraph
-    :return: dict, count of occurrences of varied contact info
-    :contact keys: email, phone, address, names, social network info
-    '''
-    pass
 
 
 def getIndividualTokens(paragraph):
@@ -274,9 +288,10 @@ if __name__ == '__main__':
            "2.99 x 10^33; 3.14159 x 10E5, -1.23E99 | 1E0 | -9.999e-999," \
            "1.1 x 10^9 | 2.34 X 10^12 | 3.14159 * 10^30 | 1.1x10^9 |" \
            "2.34X10^12 | 3.14159*10^30 | 1.1 x 10e9 | 2.34 x 10E12 " \
-           "| 3.14159e30" \
+           "| 3.14159e30 sjdhbfsellthis for 10$" \
+           "need instanstsupport for 20rupya" \
            "| 1.1 x 10^-9 | 2.34 X 10^-12 | 3.14159E-30 | -1.1 x 10^9 | " \
-           "-2.34 X 10E12" \
+           "-2.34 X 10E12 my phone is 9034 and email is 02394" \
            "| -3.14159 * 10e30 | -1.1x10^-9 | -2.34E-12 | -3.14159e-30 | " \
            "3.1459E+030" \
            "| 1x10^9 | 1E9," \
