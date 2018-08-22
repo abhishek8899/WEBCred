@@ -2,11 +2,13 @@
 Before running this file. Start the server
 '''
 from functools import wraps
+from nltk import sent_tokenize
 from stanfordcorenlp import StanfordCoreNLP
 
 import json
 import re
 import regex as currency_re
+import string
 
 
 class StanfordNLP:
@@ -23,9 +25,27 @@ class StanfordNLP:
             },
         }
 
-    # get tokens of sentence
-    def word_tokenize(self, sentence):
-        return self.nlp.word_tokenize(sentence)
+    # get tokens of paragraph
+    def word_tokenize(self, paragraph):
+        return self.nlp.word_tokenize(paragraph)
+
+    def sentence_tokenize(self, paragraph):
+        return sent_tokenize(paragraph)
+
+    def character_tokenize(self, paragraph):
+        return paragraph
+
+    def digit_tokenize(self, paragraph):
+        return re.compile(r'\d+').findall(paragraph)
+
+    def punctuation_tokenize(self, paragraph):
+        regex = re.compile('[%s]' % re.escape(string.punctuation))
+        return regex.findall(paragraph)
+
+    def misspell_tokenize(self, paragraph):
+        # TODO some nltk brown corpus shit
+        tokens = []
+        return tokens
 
     def pos(self, paragraph):
         '''
@@ -33,14 +53,14 @@ class StanfordNLP:
         '''
         return self.nlp.pos_tag(paragraph)
 
-    # get sentiment(positive, neutral, negative) count for given sentence
-    def sentiment(self, sentence):
-        val = self.nlp._request(annotators='sentiment', data=sentence)
+    # get sentiment(positive, neutral, negative) count for given paragraph
+    def sentiment(self, paragraph):
+        val = self.nlp._request(annotators='sentiment', data=paragraph)
         count = {}
         for sentence in val['sentences']:
             sentiment = sentence['sentiment']
             if sentiment not in count.keys():
-                count[sentiment] = 0
+                count[sentiment] = 1
             else:
                 count[sentiment] += 1
         return count
@@ -259,18 +279,33 @@ def getSymbols(paragraph, dictsym=token_symbols):
     return symbols
 
 
+@makestr
 def getIndividualTokens(paragraph):
     '''
     :param paragraph:  Input could be word, sentence, paragraph
-    :return: dict, count of occurrences of individual tokens
-    :tokens: sentences, words(with/without morphological analysis),
+    :return: count of occurrences of individual tokens
+    tokens >> sentences, words(with/without morphological analysis),
     characters, digits, individual punctuation marks, misspell
     '''
-    pass
+    individual_token = {
+        'word': '',
+        'sentence': '',
+        'character': '',
+        # 'alphanum': '',
+        'digit': '',
+        'punctuation': '',
+        'misspell': '',
+    }
+    for key in individual_token.keys():
+        func = eval('sNLP.' + key + '_tokenize')
+        individual_token[key] = len(func(paragraph))
+
+    return individual_token
 
 
-def getSentiment():
-    pass
+@makestr
+def getSentiment(paragraph):
+    return sNLP.sentiment(paragraph)
 
 
 if __name__ == '__main__':
@@ -298,7 +333,10 @@ if __name__ == '__main__':
            "1.0+i i 2 i+2 i-1 0.122222i-0.2333 0.2 0.2i -2-i -1.0-i -3.0+1i " \
            "-2.0+1.0i" \
            " 3.0i-2.0i,"
-    print getSymbols(para)
+    sen = ' Which tags are nouns most commonly found after? What do ' \
+          'these tags' \
+          ' represent? - articles or adjectives are the most common.'
+    print getSentiment(sen)
     # print("Tokens:", sNLP.word_tokenize(text))
     # print("NER:", sNLP.ner(text))
     # print("Parse:", sNLP.parse(text))
