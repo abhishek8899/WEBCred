@@ -4,7 +4,10 @@ Before running this file. Start the server
 from functools import wraps
 from nltk import sent_tokenize
 from stanfordcorenlp import StanfordCoreNLP
+from features.tfidf import all_files, global_terms_in_doc,\
+    global_term_freq, num_docs, doc_folder
 
+import math
 import json
 import re
 import regex as currency_re
@@ -13,6 +16,7 @@ import string
 
 class StanfordNLP:
     def __init__(self, host='http://localhost', port=9000):
+        self.nlp = StanfordCoreNLP(host, port=port, timeout=30000)
         self.nlp = StanfordCoreNLP(host, port=port, timeout=30000)
         self.props = {
             'annotators': 'tokenize,ssplit,pos,lemma,ner,parse,depparse,'
@@ -233,6 +237,43 @@ def scientific_notation_regex(**kwargs):
     ]
 
 
+# TODO adverb_keywords
+def doc_keyword(filename=None):
+    '''
+    :param filename: this file should be present under /data/dump/text folder
+    :return: keywords to a document, sorted by decreasing tfidf score
+    '''
+    global_keyterms_in_doc = {}
+    if filename:
+        required_file = [doc_folder + filename]
+    else:
+        required_file = all_files
+
+    for f in required_file:
+
+        # writer = open(f + '_tfidf', 'w')
+        result = []
+        # iterate over terms in f, calculate their tf-idf, put in new list
+        max_freq = 0
+        for (term, freq) in global_terms_in_doc[f].items():
+            if freq > max_freq:
+                max_freq = freq
+        for (term, freq) in global_terms_in_doc[f].items():
+            idf = math.log(
+                float(1 + num_docs) / float(1 + global_term_freq[term])
+            )
+            tfidf = float(freq) / float(max_freq) * float(idf)
+            result.append([tfidf, term])
+
+        # sort result on tfidf and write them in descending order
+        result = sorted(result, reverse=True)
+        f = f.replace(doc_folder, '', 1)
+        global_keyterms_in_doc[f] = []
+        global_keyterms_in_doc[f] = [term for (tfidf_score, term) in result]
+
+    return global_keyterms_in_doc
+
+
 '''
 -------------from here starts token functions-----------
 '''
@@ -316,7 +357,7 @@ if __name__ == '__main__':
     # print("Annotate:", sNLP.annotate(text))
     print("POS:", sNLP.pos(text))
     notations = 'sdf 1 uW, 1 mW, 1 W, 1 m, 1.5 W, .5 W, 5E-12 F, 5 nF skdfb'
-
+    doc_keyword('beta.html5test.com')
     getPos(text)
     para = "ROOT 4.873624764e-34 | `1234567 890-= 3.8765e-" \
            "34543 | ~! @ # $ % ^ &amp; ( % )_+ 3.345e-2384754," \
