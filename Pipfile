@@ -23,7 +23,6 @@ seaborn = "*"
 sklearn = "*"
 webcred = {editable = true, path = "."}
 gensim = "*"
-kpex = {git = "https://github.com/christophfeinauer/kpex"}
 stanfordcorenlp = "*"
 flask = "*"
 # solution to, some RUNTIME warning issue from scipy & scikit

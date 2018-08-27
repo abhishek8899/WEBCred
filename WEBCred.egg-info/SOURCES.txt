@@ -8,6 +8,7 @@ features/__init__.py
 features/content.py
 features/form.py
 features/surface.py
+features/tfidf.py
 kit/__init__.py
 kit/analysis_script.py
 kit/create_set.py
