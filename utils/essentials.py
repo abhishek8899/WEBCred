@@ -48,6 +48,7 @@ Base = declarative_base()
 # keywords used to check real_world_presence
 hyperlinks_attributes = ['contact', 'email', 'help', 'sitemap']
 
+# these keys are used for credibility assessment
 apiList = {
     'lastmod': ['getDate', '', '', 'Integer'],
     'domain': ['getDomain', '', '', 'String(120)'],
@@ -92,11 +93,41 @@ class WebcredError(Exception):
     """An error happened during assessment of site.
     """
 
-    def __init__(self, message):
-        self.message = message
+    def __init__(self, message=None):
+        if message:
+            self.message = message
 
     def __str__(self):
         return repr(self.message)
+
+    def traceerror(self, log='debug'):
+        '''
+        :param log: specify logger attribute
+        :return: stack trace and ex_value of erroe
+        '''
+
+        # Get current system exception
+        ex_type, ex_value, ex_traceback = sys.exc_info()
+
+        # Extract unformatter stack traces as tuples
+        trace_back = traceback.extract_tb(ex_traceback)
+
+        # Format stacktrace
+        stack_trace = list()
+
+        for trace in trace_back:
+            stack_trace.append(
+                "File : %s , Line : %d, Func.Name : %s, Message : %s" %
+                (trace[0], trace[1], trace[2], trace[3])
+            )
+
+        # print("Exception type : %s " % ex_type.__name__)
+        if log == 'info':
+            logger.info(ex_value)
+        elif log == 'debug':
+            logger.debug(stack_trace)
+
+        return ex_value, stack_trace
 
 
 class MyThread(threading.Thread):

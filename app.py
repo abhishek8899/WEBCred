@@ -107,7 +107,7 @@ def appinfo(url=None):
 if __name__ == "__main__":
 
     n = os.fork()
-    # TODO killing of parent process will kill the child but not vice-versa
+    # killing of parent process will kill the child but not vice-versa
 
     # parent process
     if n > 0:
