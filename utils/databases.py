@@ -3,6 +3,7 @@
 from utils.essentials import apiList
 from utils.essentials import Base
 from utils.essentials import db
+from utils.essentials import genreList
 
 
 #  Our database model
@@ -25,6 +26,10 @@ class Features(Base):
         exec (key + " = db.Column(db." + dataType + ")")
         norm = key + 'norm'
         exec (norm + " = db.Column(db.Integer)")
+
+    for key in genreList.keys():
+        dataType = genreList[key][-1]
+        exec (key + " = db.Column(db." + dataType + ")")
 
     def __init__(self, data):
         for key in data.keys():

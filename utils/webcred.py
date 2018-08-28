@@ -1,6 +1,8 @@
 from datetime import datetime
-from features import surface
+from features import *  # noqa
 from utils.essentials import apiList
+from utils.essentials import genreList
+from utils.essentials import merge_two_dicts
 from utils.essentials import MyThread
 from utils.essentials import WebcredError
 from utils.urls import normalizeCategory
@@ -120,7 +122,7 @@ class Webcred(object):
                 API = "api" + str(number)
                 if dim in self.request.keys():
                     try:
-                        data[self.request.get(dim)[0]] = surface.dimapi(
+                        data[self.request.get(dim)[0]] = surface.dimapi(  # noqa
                             site.geturl(),
                             self.request.get(API)[0]
                         )
@@ -249,7 +251,7 @@ class Webcred(object):
                 Name = keys
                 Url = site
                 Args = apiList[keys][1]
-                func = getattr(surface, Method)
+                func = eval(Method)
                 thread = MyThread(func, Name, Url, Args)
                 thread.start()
                 threads.append(thread)
@@ -262,6 +264,30 @@ class Webcred(object):
             logger.debug('{} = {}'.format(t.getName(), data[t.getName()]))
 
         return data
+
+
+class Genre(object):
+    def __init__(self, db, request):
+        self.db = db
+        self.data = {'url': request.get('site')}
+        # get list of features to be evaluated along with
+        # their function and args
+        self.features = merge_two_dicts(apiList, genreList)
+        try:
+            self.url = Urlattributes(self.data['url'])
+        except Exception:
+            error = WebcredError()
+            error.traceerror()
+            self.data['error'] = 'Fatal Error'
+
+    def storedata(self):
+        pass
+
+    def getGenre(self):
+        pass
+
+    def geturl(self):
+        return self.data['url']
 
 
 # esp. are we removing any outliers?

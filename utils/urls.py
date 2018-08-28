@@ -2,8 +2,8 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from html2text import html2text
 from urlparse import urlparse
-from utils.databases import Features
-from utils.essentials import Database
+# from utils.databases import Features
+# from utils.essentials import Database
 from utils.essentials import WebcredError
 
 import arrow
@@ -337,7 +337,8 @@ class Urlattributes(object):
     # HACK come back and do this properly
     try:
         # TODO fetch ads list dynamically from org
-        if not patternMatching:
+        if patternMatching:
+            # if not patternMatching:
             patternMatching = PatternMatching(
                 lang_iso='data/essentials/lang_iso.txt',
                 ads_list='data/essentials/easylist.txt'
@@ -346,7 +347,8 @@ class Urlattributes(object):
 
         global normalizedData
         global normalizeCategory
-        if not normalizedData:
+        if normalizedData:
+            # if not normalizedData:
             normalizedData = {}
 
             # deprecated method of retrieving data from json dump
@@ -384,8 +386,9 @@ class Urlattributes(object):
                 data.append(metadata)
             '''
             # get data from postgres
-            db = Database(Features)
-            data = db.getdbdata()
+            # db = Database(Features)
+            # data = db.getdbdata()
+            data = {}
 
             it = normalizeCategory['3'].items()
             for k in it:

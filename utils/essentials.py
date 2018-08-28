@@ -17,7 +17,6 @@ import sys
 import threading
 import traceback
 
-
 with open('data/essentials/weightage.json') as f:
     weightage_data = json.load(f)
 
@@ -50,36 +49,37 @@ Base = declarative_base()
 hyperlinks_attributes = ['contact', 'email', 'help', 'sitemap']
 
 # these keys are used for credibility assessment
+# {'features name': ['functions', 'Args1', 'Args2', 'return type']}
 apiList = {
-    'lastmod': ['getDate', '', '', 'Integer'],
-    'domain': ['getDomain', '', '', 'String(120)'],
+    'lastmod': ['surface.getDate', '', '', 'Integer'],
+    'domain': ['surface.getDomain', '', '', 'String(120)'],
     'inlinks': [
-        'getInlinks',
+        'surface.getInlinks',
         '',
         '',
         'Integer',
     ],
     'outlinks': [
-        'getOutlinks',
+        'surface.getOutlinks',
         '',
         '',
         'Integer',
     ],
     'hyperlinks': [
-        'getHyperlinks',
+        'surface.getHyperlinks',
         hyperlinks_attributes,
         '',
         'JSON',
     ],
-    'imgratio': ['getImgratio', '', '', 'FLOAT'],
-    'brokenlinks': ['getBrokenlinks', '', '', 'Integer'],
-    'cookie': ['getCookie', '', '', 'Boolean'],
-    'langcount': ['getLangcount', '', '', 'Integer'],
-    'misspelled': ['getMisspelled', '', '', 'Integer'],
-    # 'wot': ['getWot', '', 'JSON'],
-    'responsive': ['getResponsive', '', '', 'Boolean'],
-    'ads': ['getAds', '', 'Integer'],
-    'pageloadtime': ['getPageloadtime', '', '', 'Integer'],
+    'imgratio': ['surface.getImgratio', '', '', 'FLOAT'],
+    'brokenlinks': ['surface.getBrokenlinks', '', '', 'Integer'],
+    'cookie': ['surface.getCookie', '', '', 'Boolean'],
+    'langcount': ['surface.getLangcount', '', '', 'Integer'],
+    'misspelled': ['surface.getMisspelled', '', '', 'Integer'],
+    # 'wot': ['surface.getWot', '', 'JSON'],
+    'responsive': ['surface.getResponsive', '', '', 'Boolean'],
+    'ads': ['surface.getAds', '', 'Integer'],
+    'pageloadtime': ['surface.getPageloadtime', '', '', 'Integer'],
     'site': [
         '',
         '',
@@ -88,7 +88,19 @@ apiList = {
     ],
 }
 
-genreList = {'keywords': ['']}
+genreList = {
+    # FIXME come back to insert array type columns into db
+    'keywords': ['content.doc_keyword', '', '', 'ARRAY(Integer)'],
+    'pos': ['content.getPos', '', '', 'JSON'],
+    'symbols': ['content.getSymbols', '', '', 'JSON'],
+    'tokens': ['content.getIndividualTokens', '', '', 'JSON'],
+    'sentiment': ['content.getSentiment', '', '', 'JSON'],
+    'depth': ['form.depth', '', '', 'Integer'],
+    'doc_type': ['form.doc_type', '', '', 'String(120)'],
+    # FIXME come back and fix this before execution
+    'lexical_terms': ['form.lexical', '', '', 'JSON'],
+    'html_tags': ['form.getCountOfHtml', '', '', 'JSON'],
+}
 
 
 # A class to catch error and exceptions
