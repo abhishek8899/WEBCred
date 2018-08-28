@@ -1,3 +1,17 @@
+import os  # isort:skip
+process = os.fork()  # isort:skip
+# killing of parent process will kill the child but not vice-versa
+
+run_corenlp_server = 'java -mx4g -cp ' \
+                     '"stanford-corenlp-full-2018-02-27/*" ' \
+                     'edu.stanford.nlp.pipeline.' \
+                     'StanfordCoreNLPServer' \
+                     ' -annotators "tokenize,ssplit,pos,lemma,parse,' \
+                     'sentiment" -port 9000 -timeout 30000' \
+                     ' --add-modules java.se.ee'  # isort:skip
+
+os.system(run_corenlp_server)  # isort:skip
+
 from dotenv import load_dotenv
 from flask import jsonify
 from flask import render_template
@@ -10,7 +24,6 @@ from utils.webcred import Webcred
 
 import json
 import logging
-import os
 import requests
 import subprocess
 import time
@@ -106,25 +119,12 @@ def appinfo(url=None):
 
 if __name__ == "__main__":
 
-    n = os.fork()
-    # killing of parent process will kill the child but not vice-versa
-
     # parent process
-    if n > 0:
+    if process > 0:
+        time.sleep(5)
         app.run(
             threaded=True,
             host='0.0.0.0',
             debug=False,
             port=5050,
         )
-
-    # child process
-    else:
-        run_corenlp_server = 'java -mx4g -cp ' \
-                             '"stanford-corenlp-full-2018-02-27/*" ' \
-                             'edu.stanford.nlp.pipeline.' \
-                             'StanfordCoreNLPServer' \
-                             ' -annotators "tokenize,ssplit,pos,lemma,parse,' \
-                             'sentiment" -port 9000 -timeout 30000' \
-                             ' --add-modules java.se.ee'
-        os.system(run_corenlp_server)
