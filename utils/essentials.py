@@ -17,6 +17,7 @@ import sys
 import threading
 import traceback
 
+
 with open('data/essentials/weightage.json') as f:
     weightage_data = json.load(f)
 
@@ -86,6 +87,8 @@ apiList = {
         'String(120)',
     ],
 }
+
+genreList = {'keywords': ['']}
 
 
 # A class to catch error and exceptions
@@ -340,3 +343,9 @@ class Correlation(object):
         )
         # show graph plot of correlation
         pl.show()
+
+
+def merge_two_dicts(x, y):
+    z = x.copy()  # start with x's keys and values
+    z.update(y)  # modifies z with y's keys and values & returns None
+    return z

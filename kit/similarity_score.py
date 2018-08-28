@@ -7,23 +7,17 @@ from utils.essentials import Correlation
 from utils.essentials import Database
 from utils.essentials import db
 from utils.essentials import weightage_data
+from utils.essentials import merge_two_dicts
 from utils.webcred import webcredScore
 
 import json
 import logging
-
 
 logger = logging.getLogger('similarity_score')
 
 Session = sessionmaker()
 Session.configure(bind=db.engine)
 session = Session()
-
-
-def merge_two_dicts(x, y):
-    z = x.copy()  # start with x's keys and values
-    z.update(y)  # modifies z with y's keys and values & returns None
-    return z
 
 
 def goodurls():

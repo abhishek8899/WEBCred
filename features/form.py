@@ -8,46 +8,46 @@ import validators
 
 
 # TODO test these all
-class URL(object):
-    def __init__(self, url):
+def parseurl(url):
 
-        if not validators.url(url):
-            raise WebcredError('Not a valid url')
+    if not validators.url(url):
+        raise WebcredError('Not a valid url')
 
-        self.url = url
-        self.parse = urlparse(url=self.url)
+    return urlparse(url=url)
 
-    def depth(self):
-        path = self.parse.path
-        return len(path.split('/'))
 
-    def gtld(self):
-        netloc = self.parse.netloc
-        return netloc.split('.')[-1]
+def depth(url):
+    path = parseurl(url).path
+    return len(path.split('/'))
 
-    def doc_type(self):
-        path = self.parse.path
-        return path.split('/')[-1].split('.')[-1]
 
-    def lexical(self):
-        '''
-        :return: list of matched lexical terms
-        '''
-        path = self.parse.path
-        lexical_terms = [
-            'faq', 'news', 'board', 'detail', 'list', 'termsqna', 'index',
-            'shop', 'data', 'go', 'view', 'front', 'main', 'company', 'item',
-            'paper', 'bbslist', 'product', 'read', 'papers', 'start', 'file',
-            'gallery', 'introduction', 'info', 'login', 'search', 'research',
-            'bbs', 'link', 'intro', 'people', 'profile', 'video', 'photo'
-        ]
+def gtld(url):
+    netloc = parseurl(url).netloc
+    return netloc.split('.')[-1]
 
-        regex_exp = [
-            re.compile(re.escape(keys), re.X) for keys in lexical_terms
-        ]
 
-        # TODO get frequency of matched terms
-        return set(get_matches(path, regex_exp=regex_exp))
+def doc_type(url):
+    path = parseurl(url).path
+    return path.split('/')[-1].split('.')[-1]
+
+
+def lexical(url):
+    '''
+    :return: list of matched lexical terms
+    '''
+    path = parseurl(url).path
+    lexical_terms = [
+        'faq', 'news', 'board', 'detail', 'list', 'termsqna', 'index', 'shop',
+        'data', 'go', 'view', 'front', 'main', 'company', 'item', 'paper',
+        'bbslist', 'product', 'read', 'papers', 'start', 'file', 'gallery',
+        'introduction', 'info', 'login', 'search', 'research', 'bbs', 'link',
+        'intro', 'people', 'profile', 'video', 'photo'
+    ]
+
+    regex_exp = [re.compile(re.escape(keys), re.X) for keys in lexical_terms]
+
+    # TODO get frequency of matched terms
+    return set(get_matches(path, regex_exp=regex_exp))
 
 
 def getCountOfHtml(html):
