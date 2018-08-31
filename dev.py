@@ -72,20 +72,20 @@ if work == 'collectData':
         # data_file.write(content)
         # data_file.close()
 
-if not data:
-    file_ = 'data/json/data2.json'
-    file_ = open(file_, 'r').read()
-    file_ = file_.split('\n')
-
-    truncate_char = 0
-    for element in file_[:-1]:
-        # print str(element[4:])
-        try:
-            data.append(json.loads(str(element[truncate_char:])))
-        except ValueError:
-            # it happens when len(data) changes to 100 from 99
-            truncate_char += 1
-            data.append(json.loads(str(element[truncate_char:])))
+# if not data:
+#     file_ = 'data/json/data2.json'
+#     file_ = open(file_, 'r').read()
+#     file_ = file_.split('\n')
+#
+#     truncate_char = 0
+#     for element in file_[:-1]:
+#         # print str(element[4:])
+#         try:
+#             data.append(json.loads(str(element[truncate_char:])))
+#         except ValueError:
+#             # it happens when len(data) changes to 100 from 99
+#             truncate_char += 1
+#             data.append(json.loads(str(element[truncate_char:])))
 
 if work == 'normalize':
     # imgratio value are converted to int from float by multiple by 10^6

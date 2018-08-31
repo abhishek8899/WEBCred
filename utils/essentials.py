@@ -17,7 +17,6 @@ import sys
 import threading
 import traceback
 
-
 with open('data/essentials/weightage.json') as f:
     weightage_data = json.load(f)
 
@@ -50,45 +49,60 @@ Base = declarative_base()
 hyperlinks_attributes = ['contact', 'email', 'help', 'sitemap']
 
 # these keys are used for credibility assessment
+# {'features name': ['functions', 'Args1', 'whether normalization is
+# required', 'return type']}
 apiList = {
-    'lastmod': ['getDate', '', '', 'Integer'],
-    'domain': ['getDomain', '', '', 'String(120)'],
+    'lastmod': ['surface.getDate', '', 'norm', 'Integer'],
+    'domain': ['surface.getDomain', '', 'norm', 'String(120)'],
     'inlinks': [
-        'getInlinks',
+        'surface.getInlinks',
         '',
-        '',
+        'norm',
         'Integer',
     ],
     'outlinks': [
-        'getOutlinks',
+        'surface.getOutlinks',
         '',
-        '',
+        'norm',
         'Integer',
     ],
     'hyperlinks': [
-        'getHyperlinks',
+        'surface.getHyperlinks',
         hyperlinks_attributes,
-        '',
+        'norm',
         'JSON',
     ],
-    'imgratio': ['getImgratio', '', '', 'FLOAT'],
-    'brokenlinks': ['getBrokenlinks', '', '', 'Integer'],
-    'cookie': ['getCookie', '', '', 'Boolean'],
-    'langcount': ['getLangcount', '', '', 'Integer'],
-    'misspelled': ['getMisspelled', '', '', 'Integer'],
-    # 'wot': ['getWot', '', 'JSON'],
-    'responsive': ['getResponsive', '', '', 'Boolean'],
-    'ads': ['getAds', '', 'Integer'],
-    'pageloadtime': ['getPageloadtime', '', '', 'Integer'],
+    'imgratio': ['surface.getImgratio', '', 'norm', 'FLOAT'],
+    'brokenlinks': ['surface.getBrokenlinks', '', 'norm', 'Integer'],
+    'cookie': ['surface.getCookie', '', '', 'Boolean'],
+    'langcount': ['surface.getLangcount', '', 'norm', 'Integer'],
+    'misspelled': ['surface.getMisspelled', '', 'norm', 'Integer'],
+    'responsive': ['surface.getResponsive', '', 'norm', 'Boolean'],
+    'ads': ['surface.getAds', '', 'norm', 'Integer'],
+    'pageloadtime': ['surface.getPageloadtime', '', 'norm', 'Integer'],
     'site': [
         '',
         '',
         '',
         'String(120)',
     ],
+    'text': ['utilities.dumpText', '', '', 'String'],
+    'html': ['utilities.dumpHtml', '', '', 'String'],
 }
 
-genreList = {'keywords': ['']}
+genreList = {
+    # FIXME come back to insert array type columns into db
+    # 'keywords': ['content.doc_keyword', '', '', 'ARRAY(Integer)'],
+    'pos': ['content.getPos', '', '', 'JSON'],
+    'symbols': ['content.getSymbols', '', '', 'JSON'],
+    'tokens': ['content.getIndividualTokens', '', '', 'JSON'],
+    'sentiment': ['content.getSentiment', '', '', 'JSON'],
+    'depth': ['form.depth', '', '', 'Integer'],
+    'doc_type': ['form.doc_type', '', '', 'String(120)'],
+    # FIXME come back and fix this before execution
+    'lexical_terms': ['form.lexical', '', '', 'JSON'],
+    'html_tags': ['form.getCountOfHtml', '', '', 'JSON'],
+}
 
 
 # A class to catch error and exceptions
@@ -105,6 +119,7 @@ class WebcredError(Exception):
 
     def traceerror(self, log='debug'):
         '''
+        set log to 'info' if require it to register it to logs
         :param log: specify logger attribute
         :return: stack trace and ex_value of erroe
         '''

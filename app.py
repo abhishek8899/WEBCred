@@ -73,6 +73,22 @@ def start():
 
     data = collectData(request)
 
+    # prevent users to know of dump location and other db attributes
+    excluding_keys = [
+        'text',
+        'html',
+        'id',
+        'cookie',
+        'cookienorm',
+        'site',
+        'sitenorm',
+        '_sa_instance_state',
+    ]
+
+    for keys in excluding_keys:
+        if keys in data.keys():
+            del data[keys]
+
     return jsonify(data)
 
 
@@ -91,6 +107,7 @@ def page_not_found(e):
 # which should be restarted, if mem excedes some (80%) limit
 def collectData(request):
 
+    data = {}
     try:
 
         database = Database(Features)

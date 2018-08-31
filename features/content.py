@@ -1,14 +1,17 @@
 '''
 Before running this file. Start the server
 '''
+from features.tfidf import all_files
+from features.tfidf import doc_folder
+from features.tfidf import global_term_freq
+from features.tfidf import global_terms_in_doc
+from features.tfidf import num_docs
 from functools import wraps
 from nltk import sent_tokenize
 from stanfordcorenlp import StanfordCoreNLP
-from features.tfidf import all_files, global_terms_in_doc,\
-    global_term_freq, num_docs, doc_folder
 
-import math
 import json
+import math
 import re
 import regex as currency_re
 import string
@@ -271,6 +274,8 @@ def doc_keyword(filename=None):
         global_keyterms_in_doc[f] = []
         global_keyterms_in_doc[f] = [term for (tfidf_score, term) in result]
 
+    if filename:
+        return global_keyterms_in_doc[filename]
     return global_keyterms_in_doc
 
 

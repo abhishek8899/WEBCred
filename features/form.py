@@ -21,9 +21,10 @@ def depth(url):
     return len(path.split('/'))
 
 
-def gtld(url):
-    netloc = parseurl(url).netloc
-    return netloc.split('.')[-1]
+# already covered in surface features
+# def gtld(url):
+#     netloc = parseurl(url).netloc
+#     return netloc.split('.')[-1]
 
 
 def doc_type(url):

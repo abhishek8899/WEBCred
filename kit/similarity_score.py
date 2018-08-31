@@ -8,7 +8,7 @@ from utils.essentials import Database
 from utils.essentials import db
 from utils.essentials import weightage_data
 from utils.essentials import merge_two_dicts
-from utils.webcred import webcredScore
+from utils.webcred import webcred_score
 
 import json
 import logging
@@ -176,7 +176,7 @@ def fillwebcredscore():
                 percentage[feature_name[j]] = i.get('weights')[j]
 
             # get score
-            data = webcredScore(data, percentage)
+            data = webcred_score(data, percentage)
             score[i.get('name')] = data['webcred_score']
             del data['webcred_score']
             features.update('url', url, data)

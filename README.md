@@ -42,6 +42,7 @@ with correct values.
 
     ```
     import nltk
+    nltk.download('maxent_treebank_pos_tagger')
     nltk.download('punkt')
     nltk.download('averaged_perceptron_tagger')
     nltk.download('wordnet')
