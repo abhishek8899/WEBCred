@@ -100,8 +100,8 @@ genreList = {
     'depth': ['form.depth', '', '', 'Integer'],
     'doc_type': ['form.doc_type', '', '', 'String(120)'],
     # FIXME come back and fix this before execution
-    'lexical_terms': ['form.lexical', '', '', 'JSON'],
-    'html_tags': ['form.getCountOfHtml', '', '', 'JSON'],
+    # 'lexical_terms': ['form.lexical', '', '', 'JSON'],
+    # 'html_tags': ['form.getCountOfHtml', '', '', 'JSON'],
 }
 
 
@@ -121,7 +121,7 @@ class WebcredError(Exception):
         '''
         set log to 'info' if require it to register it to logs
         :param log: specify logger attribute
-        :return: stack trace and ex_value of erroe
+        :return: ex_value, stack_trace of error
         '''
 
         # Get current system exception
@@ -142,8 +142,9 @@ class WebcredError(Exception):
         # print("Exception type : %s " % ex_type.__name__)
         if log == 'info':
             logger.info(ex_value)
-        elif log == 'debug':
-            logger.debug(stack_trace)
+            logger.info(stack_trace)
+        # elif log == 'debug':
+        #     pass
 
         return ex_value, stack_trace
 
@@ -173,25 +174,13 @@ class MyThread(threading.Thread):
                 self.result = self.func(self.url, self.args)
             else:
                 self.result = self.func(self.url)
+
         except Exception:
-            # Get current system exception
-            ex_type, ex_value, ex_traceback = sys.exc_info()
-
-            # Extract unformatter stack traces as tuples
-            trace_back = traceback.extract_tb(ex_traceback)
-
-            # Format stacktrace
-            stack_trace = list()
-
-            for trace in trace_back:
-                stack_trace.append(
-                    "File : %s , Line : %d, Func.Name : %s, Message : %s" %
-                    (trace[0], trace[1], trace[2], trace[3])
-                )
-
+            error = WebcredError()
+            ex_value, stack_trace = error.traceerror()
             # print("Exception type : %s " % ex_type.__name__)
             if not ex_value.message == 'Response 202':
-                logger.info('{}:{}'.format(ex_type.__name__, ex_value))
+                logger.info(ex_value)
                 logger.info(stack_trace)
 
             self.result = None

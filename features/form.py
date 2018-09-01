@@ -1,42 +1,65 @@
 from bs4 import BeautifulSoup
 from features.content import get_matches
+from functools import wraps
 from urlparse import urlparse
-from utils.essentials import WebcredError
+from utils.urls import Urlattributes
 
+import os
 import re
-import validators
 
 
-# TODO test these all
-def parseurl(url):
+def makeurl(func):
+    '''
+    :param func:
+    :return: url from Urlattributes instance
+    '''
 
-    if not validators.url(url):
-        raise WebcredError('Not a valid url')
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if isinstance(args[0], Urlattributes):
+            return func(args[0].geturl())
 
-    return urlparse(url=url)
+    return wrapper
 
 
+@makeurl
 def depth(url):
-    path = parseurl(url).path
+
+    path = urlparse(url=url).path
+
+    if not path[-1]:
+        del path[-1]
+
+    path = (os.sep).join(path)
+
     return len(path.split('/'))
 
 
 # already covered in surface features
+# @makeurl
 # def gtld(url):
 #     netloc = parseurl(url).netloc
 #     return netloc.split('.')[-1]
 
 
+@makeurl
 def doc_type(url):
-    path = parseurl(url).path
+    path = urlparse(url=url).path
+
+    if not path[-1]:
+        del path[-1]
+
+    path = (os.sep).join(path)
+
     return path.split('/')[-1].split('.')[-1]
 
 
+@makeurl
 def lexical(url):
     '''
     :return: list of matched lexical terms
     '''
-    path = parseurl(url).path
+    path = urlparse(url=url).path
     lexical_terms = [
         'faq', 'news', 'board', 'detail', 'list', 'termsqna', 'index', 'shop',
         'data', 'go', 'view', 'front', 'main', 'company', 'item', 'paper',
