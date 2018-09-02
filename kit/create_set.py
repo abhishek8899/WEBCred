@@ -179,7 +179,6 @@ except Exception:
             (trace[0], trace[1], trace[2], trace[3])
         )
 
-    # print("Exception type : %s " % ex_type.__name__)
     logger.info(ex_value)
     logger.debug(stack_trace)
 

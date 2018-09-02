@@ -58,7 +58,7 @@ apiList = {
         'surface.getInlinks',
         '',
         'norm',
-        'Integer',
+        'BIGINT',
     ],
     'outlinks': [
         'surface.getOutlinks',
@@ -80,28 +80,20 @@ apiList = {
     'responsive': ['surface.getResponsive', '', 'norm', 'Boolean'],
     'ads': ['surface.getAds', '', 'norm', 'Integer'],
     'pageloadtime': ['surface.getPageloadtime', '', 'norm', 'Integer'],
-    'site': [
-        '',
-        '',
-        '',
-        'String(120)',
-    ],
     'text': ['utilities.dumpText', '', '', 'String'],
     'html': ['utilities.dumpHtml', '', '', 'String'],
 }
 
 genreList = {
-    # FIXME come back to insert array type columns into db
-    # 'keywords': ['content.doc_keyword', '', '', 'ARRAY(Integer)'],
+    'keywords': ['content.doc_keyword', '', '', 'ARRAY(db.String)'],
     'pos': ['content.getPos', '', '', 'JSON'],
     'symbols': ['content.getSymbols', '', '', 'JSON'],
     'tokens': ['content.getIndividualTokens', '', '', 'JSON'],
-    'sentiment': ['content.getSentiment', '', '', 'JSON'],
+    # 'sentiment': ['content.getSentiment', '', '', 'JSON'],
     'depth': ['form.depth', '', '', 'Integer'],
     'doc_type': ['form.doc_type', '', '', 'String(120)'],
-    # FIXME come back and fix this before execution
-    # 'lexical_terms': ['form.lexical', '', '', 'JSON'],
-    # 'html_tags': ['form.getCountOfHtml', '', '', 'JSON'],
+    'lexical_terms': ['form.lexical', '', '', 'JSON'],
+    'html_tags': ['form.getCountOfHtml', '', '', 'JSON'],
 }
 
 
@@ -139,7 +131,6 @@ class WebcredError(Exception):
                 (trace[0], trace[1], trace[2], trace[3])
             )
 
-        # print("Exception type : %s " % ex_type.__name__)
         if log == 'info':
             logger.info(ex_value)
             logger.info(stack_trace)
@@ -178,7 +169,7 @@ class MyThread(threading.Thread):
         except Exception:
             error = WebcredError()
             ex_value, stack_trace = error.traceerror()
-            # print("Exception type : %s " % ex_type.__name__)
+
             if not ex_value.message == 'Response 202':
                 logger.info(ex_value)
                 logger.info(stack_trace)
@@ -236,33 +227,19 @@ class Database(object):
             self.add(data)
         else:
             logger.debug('updating entry')
+
             # we want assess_time only at the time of creation
-            if data.get('assess_time'):
-                del data['assess_time']
+            ignore_items = ['assess_time', '_sa_instance_state']
+
+            for i in ignore_items:
+                if data.get(i):
+                    del data[i]
 
             try:
                 self.filter(name, value).update(data)
-            # TODO come back and fix the bug
-            # ConnectionError can't be adapted by sqlalchemy
             except Exception:
-                # Get current system exception
-                ex_type, ex_value, ex_traceback = sys.exc_info()
-
-                # Extract unformatter stack traces as tuples
-                trace_back = traceback.extract_tb(ex_traceback)
-
-                # Format stacktrace
-                stack_trace = list()
-
-                for trace in trace_back:
-                    stack_trace.append(
-                        "File : %s , Line : %d, Func.Name : %s, Message : %s" %
-                        (trace[0], trace[1], trace[2], trace[3])
-                    )
-
-                # print("Exception type : %s " % ex_type.__name__)
-                logger.info(ex_value)
-                logger.debug(stack_trace)
+                error = WebcredError()
+                error.traceerror(log='info')
 
             self.commit()
 
@@ -285,7 +262,6 @@ class Database(object):
                     (trace[0], trace[1], trace[2], trace[3])
                 )
 
-            # print("Exception type : %s " % ex_type.__name__)
             logger.debug(ex_value)
             logger.debug(stack_trace)
 

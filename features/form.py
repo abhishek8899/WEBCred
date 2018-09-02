@@ -25,7 +25,7 @@ def makeurl(func):
 @makeurl
 def depth(url):
 
-    path = urlparse(url=url).path
+    path = urlparse(url=url).path.split('/')
 
     if not path[-1]:
         del path[-1]
@@ -44,14 +44,17 @@ def depth(url):
 
 @makeurl
 def doc_type(url):
-    path = urlparse(url=url).path
+    path = urlparse(url=url).path.split('/')
 
     if not path[-1]:
         del path[-1]
 
     path = (os.sep).join(path)
 
-    return path.split('/')[-1].split('.')[-1]
+    splitter = path.split('/')[-1].split('\.')
+    if len(splitter) > 1:
+        return splitter[-1]
+    return ''
 
 
 @makeurl
@@ -60,6 +63,7 @@ def lexical(url):
     :return: list of matched lexical terms
     '''
     path = urlparse(url=url).path
+    # FIXME need to relook into this
     lexical_terms = [
         'faq', 'news', 'board', 'detail', 'list', 'termsqna', 'index', 'shop',
         'data', 'go', 'view', 'front', 'main', 'company', 'item', 'paper',
@@ -68,17 +72,21 @@ def lexical(url):
         'intro', 'people', 'profile', 'video', 'photo'
     ]
 
-    regex_exp = [re.compile(re.escape(keys), re.X) for keys in lexical_terms]
+    count = {}
+    for term in lexical_terms:
+        regex_exp = [re.compile(re.escape(term), re.X)]
+        matches = get_matches(path, regex_exp=regex_exp)
+        count[term] = len(matches)
 
-    # TODO get frequency of matched terms
-    return set(get_matches(path, regex_exp=regex_exp))
+    return count
 
 
-def getCountOfHtml(html):
+def getCountOfHtml(url):
     '''
-    :param html: clean html (no scripts)
+    :param url: Urlattributes instance
     :return: count of html tags
     '''
+    html = url.gethtml()
     count = {}
     tags = [tag.name for tag in BeautifulSoup(html, 'html.parser').find_all()]
     for i in tags:

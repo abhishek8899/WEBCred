@@ -4,8 +4,6 @@ BELOW ARE THE WORKER FUNCTIONS TO COLLECTDATA
 '''
 
 from app import collectData
-from datetime import datetime
-from random import randint
 from utils import urls
 from utils.pipeline import Pipeline
 
@@ -51,9 +49,9 @@ if work == 'collectData':
         'ads': 'false',
     }
 
-    now = datetime.now().time().isoformat()
-    new_id = 'data.{}.{:04d}'.format(now, randint(0, 9999))
-    new_id = 'data/json/' + str(new_id) + '.json'
+    # now = datetime.now().time().isoformat()
+    # new_id = 'data.{}.{:04d}'.format(now, randint(0, 9999))
+    # new_id = 'data/json/' + str(new_id) + '.json'
 
     # while we recurring over urls
     # data_file = open(new_id, 'r')
@@ -63,9 +61,24 @@ if work == 'collectData':
     # count = len(links)
     # tempcounter = counter = len(tempData)
     for url in links:
-        print(links.index(url))
         request['site'] = url[:-2]
         data = collectData(request)
+        print(
+            'assessed url = {0} with data = {1}'.format(request['site'], data)
+        )
+        unrelated_keys = [
+            'text', 'html', 'id', 'cookie', 'cookienorm', 'site', 'sitenorm',
+            '_sa_instance_state', 'webcred_score'
+        ]
+        logger.info(
+            'url_index= {0}, None_data= {1}'.format(
+                links.index(url),
+                [
+                    keys for keys in data.keys() if not keys.endswith('norm')
+                    and not data[keys] and keys not in unrelated_keys
+                ]
+            )
+        )
         # data_file = open(new_id, 'a')
         # data.append(dt)
         # content = json.dumps(dt) + '\n'

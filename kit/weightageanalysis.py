@@ -25,7 +25,6 @@ import subprocess
 import sys
 import traceback
 
-
 logger = logging.getLogger('WEBCred.surface')
 logging.basicConfig(
     filename='log/logging.log',
@@ -346,7 +345,6 @@ if __name__ == "__main__":
                             (trace[0], trace[1], trace[2], trace[3])
                         )
 
-                    # print("Exception type : %s " % ex_type.__name__)
                     if ex_value.message != 'Response 202':
                         logger.debug(ex_value)
                         logger.debug(stack_trace)

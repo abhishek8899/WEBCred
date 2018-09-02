@@ -170,7 +170,9 @@ class Genre():
 
         self.db = db
         self.request = request
+        now = datetime.now()
         self.afterSetup()
+        self.data['assess_time'] = str((datetime.now() - now).total_seconds())
 
     def afterSetup(self):
 
@@ -198,7 +200,7 @@ class Genre():
         self.data, existing_features = check_data_existence(self.db, self.data)
 
         self.data = extract_value(
-            self.features, self.features, self.data, self.url,
+            self.features.copy(), self.features, self.data, self.url,
             existing_features
         )
 

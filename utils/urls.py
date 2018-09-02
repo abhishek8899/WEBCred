@@ -18,6 +18,7 @@ import traceback
 import types
 import validators
 
+
 logger = logging.getLogger('WEBCred.urls')
 logging.basicConfig(
     filename='log/logging.log',
@@ -203,7 +204,6 @@ class Normalize(object):
                     dataList.append(element[self.name])
             self.dataList = dataList
 
-        # print self.dataList
         return self.dataList
 
     def normalize(self):
@@ -346,6 +346,7 @@ class Urlattributes(object):
 
         global normalizedData
         global normalizeCategory
+        # if normalizedData:
         if not normalizedData:
             normalizedData = {}
 
@@ -501,7 +502,6 @@ class Urlattributes(object):
                         (trace[0], trace[1], trace[2], trace[3])
                     )
 
-                # print("Exception type : %s " % ex_type.__name__)
                 raise WebcredError(ex_value)
                 # logger.info(stack_trace)
                 # HACK if it's not webcred error,
@@ -541,12 +541,12 @@ class Urlattributes(object):
             text = self.gethtml()
             text = self.clean_html(text)
             self.text = html2text(text)
-
         return self.text
 
     def gethtml(self):
         if not self.html:
             self.html = self.getrequests().text
+
         return self.html
 
     def getsoup(self, parser='html.parser'):

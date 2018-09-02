@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from sqlalchemy.dialects.postgresql import ARRAY  # noqa
 from utils.essentials import apiList
 from utils.essentials import Base
 from utils.essentials import db

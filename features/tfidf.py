@@ -24,7 +24,7 @@ supported_langs = ('english', 'french')
 
 # support for custom language if needed
 def loadLanguageLemmas(filePath):
-    print('loading language from file: ' + filePath)
+    # print('loading language from file: ' + filePath)
     f = open(filePath)
     for line in f:
         words = line.split()

@@ -288,7 +288,6 @@ def getImgratio(url):
                         (trace[0], trace[1], trace[2], trace[3])
                     )
 
-                # print("Exception type : %s " % ex_type.__name__)
                 if ex_value.message != 'Response 202':
                     logger.warning(ex_value)
                     logger.debug(stack_trace)
@@ -472,7 +471,6 @@ def googleinlink(url):
                 (trace[0], trace[1], trace[2], trace[3])
             )
 
-        # print("Exception type : %s " % ex_type.__name__)
         logger.info('Inlinks error {}'.format(ex_value))
         logger.debug(stack_trace)
 
@@ -534,7 +532,6 @@ def getInlinks(url):
                     (trace[0], trace[1], trace[2], trace[3])
                 )
 
-            # print("Exception type : %s " % ex_type.__name__)
             logger.info(ex_value)
             logger.debug(stack_trace)
 

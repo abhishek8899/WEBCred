@@ -9,12 +9,20 @@ from features.tfidf import num_docs
 from functools import wraps
 from nltk import sent_tokenize
 from stanfordcorenlp import StanfordCoreNLP
+from utils.essentials import WebcredError
+from utils.urls import Urlattributes
 
 import json
 import math
+import os
 import re
 import regex as currency_re
 import string
+import sys
+
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 class StanfordNLP:
@@ -62,7 +70,8 @@ class StanfordNLP:
 
     # get sentiment(positive, neutral, negative) count for given paragraph
     def sentiment(self, paragraph):
-        val = self.nlp._request(annotators='sentiment', data=paragraph)
+        # FIXME some json problem in here
+        val = self.nlp._request('sentiment', paragraph)
         count = {}
         for sentence in val['sentences']:
             sentiment = sentence['sentiment']
@@ -132,6 +141,10 @@ def makestr(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
+        if isinstance(args[0], Urlattributes):
+            args = list(args)
+            args[0] = args[0].gettext()
+            args = tuple(args)
         if not all(isinstance(arg, str) for arg in args):
             return func(*[str(arg) for arg in args], **kwargs)
         return func(*args, **kwargs)
@@ -240,6 +253,11 @@ def scientific_notation_regex(**kwargs):
     ]
 
 
+'''
+-------------from here starts token functions-----------
+'''
+
+
 # TODO adverb_keywords
 def doc_keyword(filename=None):
     '''
@@ -248,7 +266,18 @@ def doc_keyword(filename=None):
     '''
     global_keyterms_in_doc = {}
     if filename:
-        required_file = [doc_folder + filename]
+        filename = filename.getoriginalurl()
+        # trim http things
+        filepath = re.sub(r'((ht|f)tp(s?)\://)', '', filename)
+
+        # special case when url is >> https../...../lekmef/
+        filepath = filepath.split('/')
+        if not filepath[-1]:
+            del filepath[-1]
+
+        filepath = (os.sep).join(filepath)
+
+        required_file = [doc_folder + filepath]
     else:
         required_file = all_files
 
@@ -272,16 +301,17 @@ def doc_keyword(filename=None):
         result = sorted(result, reverse=True)
         f = f.replace(doc_folder, '', 1)
         global_keyterms_in_doc[f] = []
-        global_keyterms_in_doc[f] = [term for (tfidf_score, term) in result]
+        for (tfidf_score, term) in result:
+            try:
+                term = term.encode('utf-8', 'ignore')
+                global_keyterms_in_doc[f].append(term)
+            except Exception:
+                error = WebcredError()
+                error.traceerror(log='info')
 
     if filename:
-        return global_keyterms_in_doc[filename]
+        return global_keyterms_in_doc[f]
     return global_keyterms_in_doc
-
-
-'''
--------------from here starts token functions-----------
-'''
 
 
 @makestr
@@ -344,7 +374,11 @@ def getIndividualTokens(paragraph):
     }
     for key in individual_token.keys():
         func = eval('sNLP.' + key + '_tokenize')
-        individual_token[key] = len(func(paragraph))
+        try:
+            individual_token[key] = len(func(paragraph))
+        except Exception:
+            error = WebcredError()
+            error.traceerror(log='info')
 
     return individual_token
 
@@ -360,10 +394,10 @@ if __name__ == '__main__':
     text += ' ' + text + text + 'This is a test'
     text += text
     # print("Annotate:", sNLP.annotate(text))
-    print("POS:", sNLP.pos(text))
+    # print("POS:", sNLP.pos(text))
     notations = 'sdf 1 uW, 1 mW, 1 W, 1 m, 1.5 W, .5 W, 5E-12 F, 5 nF skdfb'
     doc_keyword('beta.html5test.com')
-    getPos(text)
+    # getPos(text)
     para = "ROOT 4.873624764e-34 | `1234567 890-= 3.8765e-" \
            "34543 | ~! @ # $ % ^ &amp; ( % )_+ 3.345e-2384754," \
            "2.99 x 10^33; 3.14159 x 10E5, -1.23E99 | 1E0 | -9.999e-999," \
@@ -382,7 +416,7 @@ if __name__ == '__main__':
     sen = ' Which tags are nouns most commonly found after? What do ' \
           'these tags' \
           ' represent? - articles or adjectives are the most common.'
-    print getSentiment(sen)
+    # print getSentiment(sen)
     # print("Tokens:", sNLP.word_tokenize(text))
     # print("NER:", sNLP.ner(text))
     # print("Parse:", sNLP.parse(text))
