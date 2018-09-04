@@ -27,7 +27,7 @@ data = []
 
 if work == 'collectData':
     # all urls
-    link = open('data/essentials/urls.txt', 'r')
+    link = open('data/essentials/complete_urls.txt', 'r')
     links = link.readlines()
     link.close()
 

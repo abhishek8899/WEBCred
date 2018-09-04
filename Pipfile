@@ -33,6 +33,7 @@ scikit-learn = "*"
 pandas = "*"
 numpy = "*"
 regex = "*"
+fake-useragent = "*"
 
 [dev-packages]
 

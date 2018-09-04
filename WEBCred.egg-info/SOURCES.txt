@@ -9,6 +9,7 @@ features/content.py
 features/form.py
 features/surface.py
 features/tfidf.py
+features/utilities.py
 kit/__init__.py
 kit/analysis_script.py
 kit/create_set.py

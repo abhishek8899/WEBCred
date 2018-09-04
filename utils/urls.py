@@ -5,7 +5,7 @@ from urlparse import urlparse
 from utils.databases import Features
 from utils.essentials import Database
 from utils.essentials import WebcredError
-
+from fake_useragent import UserAgent
 import arrow
 import copy
 import logging
@@ -18,7 +18,7 @@ import traceback
 import types
 import validators
 
-
+ua = UserAgent()
 logger = logging.getLogger('WEBCred.urls')
 logging.basicConfig(
     filename='log/logging.log',
@@ -431,8 +431,8 @@ class Urlattributes(object):
         # print 'here'
         if patternMatching:
             self.patternMatching = patternMatching
-
-        self.hdr = {'User-Agent': 'Mozilla/5.0'}
+        global ua
+        self.hdr = {'User-Agent': str(ua.chrome)}
         self.requests = self.urllibreq = self.soup = self.text = None
         self.netloc = self.header = self.lastmod = self.size = \
             self.html = self.domain = self.loadTime = None

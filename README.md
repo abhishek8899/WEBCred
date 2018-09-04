@@ -30,7 +30,7 @@ Further development of this tool is available [here](https://github.com/SIREN-SE
 - Populate the environment variables listed in `env.sample` into `.env` 
 with correct values.
 
--  Install [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk10-downloads-4416644.html)
+-  Install [JDK](https://www.khalidalnajjar.com/setup-use-stanford-corenlp-server-python/)
 
 - Download Stanford CoreNLP Library
     

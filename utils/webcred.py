@@ -101,29 +101,32 @@ def check_data_existence(db, data):
     if db.filter('url', data['url']).count():
         '''
         if lastmod not changed
-            update only the columns with None value
+            don't update any column
+            # update only the columns with None value
         else update every column
         '''
-        if db.filter('lastmod',
-                     data['lastmod']).count() or not data['lastmod']:
 
-            # get all existing data in dict format
-            data = db.getdata('url', data['url'])
+        # use db data for assessment
+        dbdata = db.getdata('url', data['url'])
+        lastmod = dbdata.get('lastmod', None)
+
+        if lastmod == data['lastmod'] and data['lastmod']:
+
+            data = dbdata
+            # do not assess this url again
+            existing_features = data.keys()
 
             # check the ones from columns which have non None value
-            '''
-            None value indicates that feature has not
-            successfully extracted yet
-            '''
+            # '''
+            # None value indicates that feature has not
+            # successfully extracted yet
+            # '''
 
             # webcred always assess loadtime
-            existing_features = [
-                k for k, v in data.items()
-                if v or str(v) == str(0) and k != 'pageloadtime'
-            ]
-
-        else:
-            data = db.getdata('url', data['url'])
+            # existing_features = [
+            #     k for k, v in data.items()
+            #     if v or str(v) == str(0) and k != 'pageloadtime'
+            # ]
 
     return data, existing_features
 
