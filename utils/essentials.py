@@ -85,7 +85,7 @@ apiList = {
 }
 
 genreList = {
-    'keywords': ['content.doc_keyword', '', '', 'ARRAY(db.String)'],
+    # 'keywords': ['content.doc_keyword', '', '', 'ARRAY(db.String)'],
     'pos': ['content.getPos', '', '', 'JSON'],
     'symbols': ['content.getSymbols', '', '', 'JSON'],
     'tokens': ['content.getIndividualTokens', '', '', 'JSON'],
