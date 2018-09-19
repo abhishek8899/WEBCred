@@ -80,3 +80,20 @@ class Ranks(Base):
 
     def __repr__(self):
         return self.url
+
+
+class Genre_labels(Base):
+    __tablename__ = 'genre_labels'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(), unique=True)
+    which_genre_does_this_web_page_belongs_to = db.Column(db.String())
+    labels = db.Column(db.Integer())
+    confidence = db.Column(db.FLOAT())
+
+    def __init__(self, data):
+        for key in data.keys():
+            setattr(self, key, data[key])
+
+    def __repr__(self):
+        return self.url

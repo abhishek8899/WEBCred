@@ -1,20 +1,22 @@
 '''
 Before running this file. Start the server
 '''
-from features.tfidf import all_files
-from features.tfidf import doc_folder
-from features.tfidf import global_term_freq
-from features.tfidf import global_terms_in_doc
-from features.tfidf import num_docs
+# from features.tfidf import all_files
+
+
+# from features.tfidf import global_terms_in_doc
+# from features.tfidf import num_docs
 from functools import wraps
+# from features.tfidf import doc_folder
+# from features.tfidf import global_term_freq
 from nltk import sent_tokenize
 from stanfordcorenlp import StanfordCoreNLP
 from utils.essentials import WebcredError
 from utils.urls import Urlattributes
 
 import json
-import math
-import os
+# import math
+# import os
 import re
 import regex as currency_re
 import string
@@ -257,61 +259,60 @@ def scientific_notation_regex(**kwargs):
 -------------from here starts token functions-----------
 '''
 
-
 # TODO adverb_keywords
-def doc_keyword(filename=None):
-    '''
-    :param filename: this file should be present under /data/dump/text folder
-    :return: keywords to a document, sorted by decreasing tfidf score
-    '''
-    global_keyterms_in_doc = {}
-    if filename:
-        filename = filename.getoriginalurl()
-        # trim http things
-        filepath = re.sub(r'((ht|f)tp(s?)\://)', '', filename)
-
-        # special case when url is >> https../...../lekmef/
-        filepath = filepath.split('/')
-        if not filepath[-1]:
-            del filepath[-1]
-
-        filepath = (os.sep).join(filepath)
-
-        required_file = [doc_folder + filepath]
-    else:
-        required_file = all_files
-
-    for f in required_file:
-
-        # writer = open(f + '_tfidf', 'w')
-        result = []
-        # iterate over terms in f, calculate their tf-idf, put in new list
-        max_freq = 0
-        for (term, freq) in global_terms_in_doc[f].items():
-            if freq > max_freq:
-                max_freq = freq
-        for (term, freq) in global_terms_in_doc[f].items():
-            idf = math.log(
-                float(1 + num_docs) / float(1 + global_term_freq[term])
-            )
-            tfidf = float(freq) / float(max_freq) * float(idf)
-            result.append([tfidf, term])
-
-        # sort result on tfidf and write them in descending order
-        result = sorted(result, reverse=True)
-        f = f.replace(doc_folder, '', 1)
-        global_keyterms_in_doc[f] = []
-        for (tfidf_score, term) in result:
-            try:
-                term = term.encode('utf-8', 'ignore')
-                global_keyterms_in_doc[f].append(term)
-            except Exception:
-                error = WebcredError()
-                error.traceerror(log='info')
-
-    if filename:
-        return global_keyterms_in_doc[f]
-    return global_keyterms_in_doc
+# def doc_keyword(filename=None):
+#     '''
+#     :param filename: this file should be present under /data/dump/text folder
+#     :return: keywords to a document, sorted by decreasing tfidf score
+#     '''
+#     global_keyterms_in_doc = {}
+#     if filename:
+#         filename = filename.getoriginalurl()
+#         # trim http things
+#         filepath = re.sub(r'((ht|f)tp(s?)\://)', '', filename)
+#
+#         # special case when url is >> https../...../lekmef/
+#         filepath = filepath.split('/')
+#         if not filepath[-1]:
+#             del filepath[-1]
+#
+#         filepath = (os.sep).join(filepath)
+#
+#         required_file = [doc_folder + filepath]
+#     else:
+#         required_file = all_files
+#
+#     for f in required_file:
+#
+#         # writer = open(f + '_tfidf', 'w')
+#         result = []
+#         # iterate over terms in f, calculate their tf-idf, put in new list
+#         max_freq = 0
+#         for (term, freq) in global_terms_in_doc[f].items():
+#             if freq > max_freq:
+#                 max_freq = freq
+#         for (term, freq) in global_terms_in_doc[f].items():
+#             idf = math.log(
+#                 float(1 + num_docs) / float(1 + global_term_freq[term])
+#             )
+#             tfidf = float(freq) / float(max_freq) * float(idf)
+#             result.append([tfidf, term])
+#
+#         # sort result on tfidf and write them in descending order
+#         result = sorted(result, reverse=True)
+#         f = f.replace(doc_folder, '', 1)
+#         global_keyterms_in_doc[f] = []
+#         for (tfidf_score, term) in result:
+#             try:
+#                 term = term.encode('utf-8', 'ignore')
+#                 global_keyterms_in_doc[f].append(term)
+#             except Exception:
+#                 error = WebcredError()
+#                 error.traceerror(log='info')
+#
+#     if filename:
+#         return global_keyterms_in_doc[f]
+#     return global_keyterms_in_doc
 
 
 @makestr
@@ -396,7 +397,7 @@ if __name__ == '__main__':
     # print("Annotate:", sNLP.annotate(text))
     # print("POS:", sNLP.pos(text))
     notations = 'sdf 1 uW, 1 mW, 1 W, 1 m, 1.5 W, .5 W, 5E-12 F, 5 nF skdfb'
-    doc_keyword('beta.html5test.com')
+    # doc_keyword('beta.html5test.com')
     # getPos(text)
     para = "ROOT 4.873624764e-34 | `1234567 890-= 3.8765e-" \
            "34543 | ~! @ # $ % ^ &amp; ( % )_+ 3.345e-2384754," \

@@ -5,6 +5,8 @@ BELOW ARE THE WORKER FUNCTIONS TO COLLECTDATA
 
 from app import collectData
 from utils import urls
+from utils.databases import Genre_labels
+from utils.essentials import Database
 from utils.pipeline import Pipeline
 
 import json
@@ -60,8 +62,15 @@ if work == 'collectData':
 
     # count = len(links)
     # tempcounter = counter = len(tempData)
-    for url in links:
-        request['site'] = url[:-2]
+
+    database = Database(Genre_labels)
+    data = database.getdbdata()
+
+    for rows in data:
+        url = rows['url']
+        request['site'] = url
+        # import pdb
+        # pdb.set_trace()
         data = collectData(request)
         print(
             'assessed url = {0} with data = {1}'.format(request['site'], data)

@@ -11,10 +11,10 @@ features/surface.py
 features/tfidf.py
 features/utilities.py
 kit/__init__.py
-kit/analysis_script.py
 kit/create_set.py
-kit/script.py
+kit/formattable_data.py
 kit/similarity_score.py
+kit/temp.py
 kit/weightageanalysis.py
 utils/__init__.py
 utils/databases.py

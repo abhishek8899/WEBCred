@@ -111,31 +111,11 @@ def prepare_filterList():
     di = open('../data/Genre_Labels/filtered_netlocs.txt', 'a')
     pattern_matching = PatternMatching()
     keywords = [
-        'news',
-        'article',
-        'blog',
-        'timesofindia',
-        'eweek',
-        'nytimes',
-        'wiki',
-        'books',
-        'developer',
-        'docs',
-        'documents',
-        'journals',
-        'scholar.google',
-        'dblp',
-        'ieee',
-        'acm',
-        'archive.org',
-        'microsoft.com',
-        'youtube',
-        'facebook',
-        'economist',
-        'indiatimes',
-        'twitter',
-        'post',
-        'tribune',
+        'news', 'article', 'blog', 'timesofindia', 'eweek', 'nytimes', 'wiki',
+        'books', 'developer', 'docs', 'documents', 'journals',
+        'scholar.google', 'dblp', 'ieee', 'acm', 'archive.org',
+        'microsoft.com', 'youtube', 'facebook', 'economist', 'indiatimes',
+        'twitter', 'post', 'tribune'
     ]
     pattern = pattern_matching.regexCompile(keywords)
 

@@ -21,6 +21,7 @@ import logging
 import os
 import requests
 import subprocess
+import timeout_decorator
 
 
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
@@ -101,6 +102,7 @@ def page_not_found(e):
 # FIXME Robustness
 # TODO run collectdata through a child process,
 # which should be restarted, if mem excedes some (80%) limit
+@timeout_decorator.timeout(1)
 def collectData(request):
 
     data = {}

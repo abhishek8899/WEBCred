@@ -17,6 +17,8 @@ import sys
 import threading
 import traceback
 
+excluding_keys = ['_sa_instance_state']
+
 with open('data/essentials/weightage.json') as f:
     weightage_data = json.load(f)
 
@@ -85,7 +87,7 @@ apiList = {
 }
 
 genreList = {
-    'keywords': ['content.doc_keyword', '', '', 'ARRAY(db.String)'],
+    # 'keywords': ['content.doc_keyword', '', '', 'ARRAY(db.String)'],
     'pos': ['content.getPos', '', '', 'JSON'],
     'symbols': ['content.getSymbols', '', '', 'JSON'],
     'tokens': ['content.getIndividualTokens', '', '', 'JSON'],
@@ -270,8 +272,16 @@ class Database(object):
             self.getsession().rollback()
 
     def getdata(self, name=None, value=None):
+        global excluding_keys
+        if self.exist(name, value):
+            local_data = self.filter(name, value).all()[0].__dict__
+            for key in excluding_keys:
+                if local_data.get(key):
+                    local_data.pop(key)
 
-        return self.filter(name, value).all()[0].__dict__
+            return local_data
+
+        return None
 
     def getcolumns(self):
 
@@ -287,9 +297,11 @@ class Database(object):
 
     def getdbdata(self):
         data = []
+        global excluding_keys
         for i in self.getcolumndata('url'):
             if not self.getdata('url', i).get('error'):
-                data.append(self.getdata('url', i))
+                local_data = self.getdata('url', i)
+                data.append(local_data)
 
         return data
 

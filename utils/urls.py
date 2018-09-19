@@ -346,8 +346,8 @@ class Urlattributes(object):
 
         global normalizedData
         global normalizeCategory
-        # if normalizedData:
-        if not normalizedData:
+        if normalizedData:
+            # if not normalizedData:
             normalizedData = {}
 
             # deprecated method of retrieving data from json dump
