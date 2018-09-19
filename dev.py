@@ -12,7 +12,6 @@ from utils.pipeline import Pipeline
 import json
 import logging
 
-
 logger = logging.getLogger('WEBCred.dev')
 logging.basicConfig(
     filename='log/logging.log',
@@ -29,9 +28,9 @@ data = []
 
 if work == 'collectData':
     # all urls
-    link = open('data/essentials/figure_eight_labelled.txt', 'r')
-    links = link.readlines()
-    link.close()
+    # link = open('data/essentials/figure_eight_labelled.txt', 'r')
+    # links = link.readlines()
+    # link.close()
 
     # stitched request
     request = {
@@ -64,7 +63,9 @@ if work == 'collectData':
     # tempcounter = counter = len(tempData)
     database = Database(Genre_labels)
     data = database.getdbdata()
+    count = -1
     for rows in data:
+        count += 1
         url = rows['url']
         request['site'] = url
         data = collectData(request)
@@ -77,7 +78,8 @@ if work == 'collectData':
         ]
         logger.info(
             'url_index= {0}, None_data= {1}'.format(
-                links.index(url),
+                # links.index(url),
+                count,
                 [
                     keys for keys in data.keys() if not keys.endswith('norm')
                     and not data[keys] and keys not in unrelated_keys

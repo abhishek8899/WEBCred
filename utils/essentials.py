@@ -17,6 +17,7 @@ import sys
 import threading
 import traceback
 
+
 with open('data/essentials/weightage.json') as f:
     weightage_data = json.load(f)
 
@@ -88,7 +89,7 @@ apiList = {
 
 genreList = {
     # 'keywords': ['content.doc_keyword', '', '', 'ARRAY(db.String)'],
-    'pos': ['content.getPos', '', '', 'JSON'],
+    # 'pos': ['content.getPos', '', '', 'JSON'],
     'symbols': ['content.getSymbols', '', '', 'JSON'],
     'tokens': ['content.getIndividualTokens', '', '', 'JSON'],
     # 'sentiment': ['content.getSentiment', '', '', 'JSON'],
