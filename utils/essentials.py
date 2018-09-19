@@ -45,6 +45,8 @@ $ python
 
 Base = declarative_base()
 
+excluding_keys = ['_sa_instance_state']
+
 # keywords used to check real_world_presence
 hyperlinks_attributes = ['contact', 'email', 'help', 'sitemap']
 
@@ -270,8 +272,16 @@ class Database(object):
             self.getsession().rollback()
 
     def getdata(self, name=None, value=None):
+        global excluding_keys
+        if self.exist(name, value):
+            local_data = self.filter(name, value).all()[0].__dict__
+            for key in excluding_keys:
+                if local_data.get(key):
+                    local_data.pop(key)
 
-        return self.filter(name, value).all()[0].__dict__
+            return local_data
+
+        return None
 
     def getcolumns(self):
 
