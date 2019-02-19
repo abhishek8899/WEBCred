@@ -1,0 +1,51 @@
+Annova Score 1.5
+Feature Count 88
+['pos_SYM', 'html_tags_select', 'tokens_digit', 'pos_PDT', 'outlinks', 'html_tags_li', 'html_tags_meta', 'pos_-LRB-', 'pos_#', 'pos_VB', 'pos_POS', 'html_tags_ul', 'pos_DT', 'html_tags_area', 'responsive', 'pos_WRB', 'html_tags_style', 'pos_RB', 'pos_RP', 'tokens_character', 'html_tags_b', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_i', 'html_tags_p', 'html_tags_link', 'html_tags_dl', 'html_tags_iframe', 'pos_PRP', 'pos_UH', 'pos_NNPS', 'pos_``', 'html_tags_nav', 'pos_NN', 'brokenlinks', 'pos_NNP', 'pos_NNS', 'pos_VBN', 'pos_VBD', 'pos_VBG', 'pos_VBZ', 'pos_VBP', 'pos_:', 'html_tags_html', 'pos_.', 'pos_,', 'pos_$', 'pos_CC', 'symbols_date', 'pos_CD', 'tokens_word', 'pos_JJ', 'html_tags_noscript', 'domain', 'pos_JJR', 'pos_JJS', 'html_tags_img', 'html_tags_script', 'tokens_sentence', 'pos_MD', 'pos_RBR', 'pos_-RRB-', 'pos_WP$', 'html_tags_form', 'html_tags_div', 'pos_TO', 'html_tags_font', 'ads', 'pos_PRP$', 'html_tags_section', 'html_tags_br', 'html_tags_textarea', 'pos_WP', 'html_tags_tr', 'html_tags_td', 'pos_IN', 'html_tags_aside', 'symbols_currency', 'html_tags_ol', 'lastmod', 'html_tags_blockquote', 'html_tags_h6', 'html_tags_h2', 'html_tags_h3', 'pos_EX', 'depth', 'html_tags_map']
+
+Annova Score 2.0
+Feature Count 74
+['pos_SYM', 'html_tags_select', 'tokens_digit', 'outlinks', 'html_tags_li', 'html_tags_meta', 'pos_-LRB-', 'pos_#', 'pos_VB', 'pos_POS', 'html_tags_ul', 'pos_DT', 'html_tags_area', 'responsive', 'pos_WRB', 'html_tags_style', 'pos_RB', 'pos_RP', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_i', 'html_tags_link', 'html_tags_dl', 'html_tags_iframe', 'pos_PRP', 'pos_UH', 'pos_NNPS', 'pos_``', 'pos_NN', 'brokenlinks', 'pos_NNS', 'pos_VBN', 'pos_VBD', 'pos_VBG', 'pos_VBZ', 'pos_VBP', 'pos_:', 'pos_.', 'pos_,', 'pos_$', 'pos_CC', 'pos_CD', 'tokens_word', 'pos_JJ', 'html_tags_noscript', 'domain', 'pos_JJR', 'pos_JJS', 'html_tags_img', 'html_tags_script', 'pos_MD', 'pos_RBR', 'pos_-RRB-', 'html_tags_form', 'html_tags_div', 'pos_TO', 'html_tags_font', 'ads', 'pos_PRP$', 'html_tags_section', 'html_tags_br', 'html_tags_textarea', 'pos_WP', 'html_tags_tr', 'html_tags_td', 'pos_IN', 'html_tags_aside', 'symbols_currency', 'html_tags_h6', 'html_tags_h3', 'pos_EX', 'depth', 'html_tags_map']
+
+Annova Score 2.5
+Feature Count 60
+['pos_SYM', 'tokens_digit', 'outlinks', 'html_tags_meta', 'pos_-LRB-', 'pos_#', 'pos_VB', 'pos_POS', 'pos_DT', 'html_tags_area', 'pos_RB', 'pos_RP', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_i', 'html_tags_link', 'html_tags_dl', 'html_tags_iframe', 'pos_PRP', 'pos_UH', 'pos_``', 'pos_NN', 'brokenlinks', 'pos_NNS', 'pos_VBN', 'pos_VBG', 'pos_VBZ', 'pos_VBP', 'pos_:', 'pos_.', 'pos_,', 'pos_$', 'pos_CC', 'pos_CD', 'tokens_word', 'domain', 'pos_JJR', 'pos_JJS', 'html_tags_img', 'html_tags_script', 'pos_MD', 'pos_-RRB-', 'html_tags_form', 'html_tags_div', 'pos_TO', 'html_tags_font', 'ads', 'html_tags_section', 'html_tags_textarea', 'html_tags_tr', 'html_tags_td', 'pos_IN', 'html_tags_aside', 'symbols_currency', 'html_tags_h6', 'html_tags_h3', 'pos_EX', 'depth', 'html_tags_map']
+
+Annova Score 3.0
+Feature Count 45
+['pos_SYM', 'tokens_digit', 'outlinks', 'html_tags_meta', 'pos_-LRB-', 'pos_#', 'pos_POS', 'pos_DT', 'html_tags_area', 'pos_RB', 'pos_RP', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_i', 'html_tags_link', 'pos_UH', 'pos_VBN', 'pos_VBG', 'pos_VBZ', 'pos_VBP', 'pos_:', 'pos_.', 'pos_$', 'pos_CC', 'pos_CD', 'domain', 'pos_JJR', 'html_tags_img', 'html_tags_script', 'pos_MD', 'pos_-RRB-', 'html_tags_form', 'html_tags_div', 'ads', 'html_tags_section', 'html_tags_textarea', 'html_tags_tr', 'html_tags_td', 'pos_IN', 'html_tags_aside', 'symbols_currency', 'html_tags_h3', 'depth', 'html_tags_map']
+
+Annova Score 3.5
+Feature Count 33
+['pos_SYM', 'tokens_digit', 'outlinks', 'html_tags_meta', 'pos_#', 'pos_POS', 'html_tags_area', 'pos_RB', 'pos_RP', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_i', 'html_tags_link', 'pos_UH', 'pos_VBZ', 'pos_:', 'pos_$', 'pos_CC', 'pos_CD', 'domain', 'pos_JJR', 'html_tags_img', 'html_tags_script', 'pos_MD', 'html_tags_form', 'ads', 'html_tags_textarea', 'html_tags_td', 'symbols_currency', 'html_tags_h3', 'depth', 'html_tags_map']
+
+Annova Score 4.0
+Feature Count 20
+['pos_SYM', 'outlinks', 'html_tags_meta', 'pos_#', 'html_tags_i', 'html_tags_link', 'pos_VBZ', 'pos_:', 'pos_$', 'pos_CD', 'pos_JJR', 'html_tags_img', 'html_tags_script', 'pos_MD', 'html_tags_form', 'html_tags_td', 'symbols_currency', 'html_tags_h3', 'depth', 'html_tags_map']
+
+Annova Score 4.5
+Feature Count 18
+['pos_SYM', 'outlinks', 'html_tags_meta', 'pos_#', 'html_tags_i', 'html_tags_link', 'pos_VBZ', 'pos_:', 'pos_CD', 'html_tags_img', 'html_tags_script', 'pos_MD', 'html_tags_form', 'html_tags_td', 'symbols_currency', 'html_tags_h3', 'depth', 'html_tags_map']
+
+Annova Score 5.0
+Feature Count 11
+['pos_SYM', 'html_tags_meta', 'pos_#', 'pos_:', 'pos_CD', 'html_tags_script', 'pos_MD', 'html_tags_td', 'symbols_currency', 'html_tags_h3', 'depth']
+
+Annova Score 5.5
+Feature Count 10
+['html_tags_meta', 'pos_#', 'pos_:', 'pos_CD', 'html_tags_script', 'pos_MD', 'html_tags_td', 'symbols_currency', 'html_tags_h3', 'depth']
+
+Annova Score 6.0
+Feature Count 7
+['html_tags_meta', 'pos_#', 'pos_:', 'pos_CD', 'html_tags_script', 'html_tags_td', 'depth']
+
+Annova Score 6.5
+Feature Count 7
+['html_tags_meta', 'pos_#', 'pos_:', 'pos_CD', 'html_tags_script', 'html_tags_td', 'depth']
+
+Annova Score 7.0
+Feature Count 7
+['html_tags_meta', 'pos_#', 'pos_:', 'pos_CD', 'html_tags_script', 'html_tags_td', 'depth']
+
+Annova Score 7.5
+Feature Count 6
+['pos_#', 'pos_:', 'pos_CD', 'html_tags_script', 'html_tags_td', 'depth']

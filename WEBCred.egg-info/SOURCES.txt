@@ -13,8 +13,8 @@ features/utilities.py
 kit/__init__.py
 kit/create_set.py
 kit/formattable_data.py
+kit/histogram.py
 kit/similarity_score.py
-kit/temp.py
 kit/weightageanalysis.py
 utils/__init__.py
 utils/databases.py

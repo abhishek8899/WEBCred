@@ -1,30 +1,50 @@
+from features.surface import getAlexarank
+from features.surface import getWot
 from sqlalchemy.orm import sessionmaker
 from utils.databases import Features
 from utils.databases import FeaturesSet
+from utils.databases import Genre_labels
+from utils.databases import Manual_labels
 from utils.databases import Ranks
+from utils.databases import Scores
 from utils.essentials import apiList
 from utils.essentials import Correlation
 from utils.essentials import Database
 from utils.essentials import db
-from utils.essentials import weightage_data
 from utils.essentials import merge_two_dicts
+from utils.essentials import weights
 from utils.webcred import webcred_score
 
 import json
 import logging
+import sys
+import traceback
 
 logger = logging.getLogger('similarity_score')
+logging.basicConfig(
+    filename='log/logging.log',
+    filemode='a',
+    format='[%(asctime)s] {%(name)s:%(lineno)d} %(levelname)s - %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S %p',
+    level=logging.INFO
+)
 
 Session = sessionmaker()
 Session.configure(bind=db.engine)
 session = Session()
+
+genre = Database(Genre_labels)
+manual_labels = Database(Manual_labels)
+
+scores = Database(Scores)
+features = Database(Features)
 
 
 def goodurls():
 
     # get instances when none of the entry in invalid
     query = session.query(Ranks, Features).filter(
-        Ranks.url == Features.url
+        Features.url == Genre_labels.url
     ).filter(Ranks.error == None).filter(Features.error == None).filter(
         Features.domain != None
     ).filter(Features.brokenlinks != None).filter(
@@ -149,39 +169,188 @@ def getsimilarity_Score():
         print()
 
 
+def genre_feature_urls():
+    '''
+    get all genre urls which are crawled with no error
+    :return:
+    '''
+
+    query = session.query(Genre_labels,
+                          Features).filter(Features.url == Genre_labels.url
+                                           ).filter(Features.error == None)
+    return query
+
+
 # store webcred_score for all genre
-def fillwebcredscore():
+def fillallscore():
 
-    # prepare dataset first
-    prepareDataset()
+    # get all URLs with labels
+    label_url = {}
 
-    features_set = Database(FeaturesSet)
-    features = Database(Features)
-    urls = features_set.getcolumndata('url')
-    feature_name = weightage_data.get('features')
+    # self labelled url
+    query = session.query(Scores, Features).filter(
+        Features.url == Scores.url
+    ).filter(Scores.which_genre_does_this_web_page_belongs_to != None).all()
 
-    for k in urls:
+    for rows in query:
+        url = str(rows[0])
+        label = scores.getdata('url', url
+                               )['which_genre_does_this_web_page_belongs_to']
+        if label:
+            label_url[url] = label
 
-        url = str(k[0])
-        # get data
-        data = json.loads(features_set.getdata('url', url).get('dataset'))
-        score = {}
+    # crowdsource labelled url
+    query = session.query(Genre_labels, Features).filter(
+        Features.url == Genre_labels.url
+    ).filter(Genre_labels.confidence >= 1).all()
 
-        for i in weightage_data.get('genres'):
+    for rows in query:
+        url = str(rows[0])
+        if not label_url.get(url):
+            rows = genre.getdata('url', url)
+            label_url[url] = rows['which_genre_does_this_web_page_belongs_to']
 
-            percentage = {}
+    # serc labelled url
+    query = session.query(Manual_labels).filter(
+        Manual_labels.which_genre_does_this_web_page_belongs_to != None
+    ).all()
+
+    for rows in query:
+        url = str(rows)
+        if not label_url.get(url):
+            rows = manual_labels.getdata('url', url)
+            if rows.get('which_genre_does_this_web_page_belongs_to'):
+                label_url[url] = rows[
+                    'which_genre_does_this_web_page_belongs_to']
+
+    for url, label in label_url.items():
+
+        if url in scores.getcolumndata('url') and scores.getdata(
+                'url', url).get(['gcs']):
+            continue
+
+        data = {}
+
+        # fetch gcs score
+        try:
 
             # prepare percentage dict
-            for j in range(len(i.get('weights'))):
-                percentage[feature_name[j]] = i.get('weights')[j]
+            feature_name = weights.get('features')
+            percentage = {}
+
+            if not weights['genres'].get(label):
+                continue
+
+            for index, elem in enumerate(
+                    weights['genres'][label].get('weights')):
+                percentage[feature_name[index] + 'Perc'] = elem
+
+            dbdata = features.getdata('url', url)
 
             # get score
-            data = webcred_score(data, percentage)
-            score[i.get('name')] = data['webcred_score']
-            del data['webcred_score']
-            features.update('url', url, data)
+            if not dbdata.get('error'):
+                data['gcs'] = webcred_score(dbdata,
+                                            percentage)["webcred_score"]
 
-        features_set.update('url', url, score)
+        except Exception:
+            # Get current system exception
+            ex_type, ex_value, ex_traceback = sys.exc_info()
+
+            # Extract unformatter stack traces as tuples
+            trace_back = traceback.extract_tb(ex_traceback)
+
+            # Format stacktrace
+            stack_trace = list()
+
+            for trace in trace_back:
+                stack_trace.append(
+                    "File : %s , Line : %d, Func.Name : %s, Message : %s" %
+                    (trace[0], trace[1], trace[2], trace[3])
+                )
+
+            logger.info(ex_value)
+            logger.debug(stack_trace)
+
+        # fetch wot score
+        try:
+            web_of_trust = getWot(url)
+
+            data['wot_confidence'] = web_of_trust['confidence']
+            data['wot_reputation'] = web_of_trust['reputation']
+            data['wot'] = (
+                data['wot_reputation'] * data['wot_confidence'] / 10000.0
+            )
+
+        except Exception:
+            # Get current system exception
+            ex_type, ex_value, ex_traceback = sys.exc_info()
+
+            # Extract unformatter stack traces as tuples
+            trace_back = traceback.extract_tb(ex_traceback)
+
+            # Format stacktrace
+            stack_trace = list()
+
+            for trace in trace_back:
+                stack_trace.append(
+                    "File : %s , Line : %d, Func.Name : %s, Message : %s" %
+                    (trace[0], trace[1], trace[2], trace[3])
+                )
+
+            logger.info(ex_value)
+            logger.debug(stack_trace)
+
+        # fetch alexa rank
+        try:
+
+            data['alexa'] = getAlexarank(url)
+
+        except Exception:
+            # Get current system exception
+            ex_type, ex_value, ex_traceback = sys.exc_info()
+
+            # Extract unformatter stack traces as tuples
+            trace_back = traceback.extract_tb(ex_traceback)
+
+            # Format stacktrace
+            stack_trace = list()
+
+            for trace in trace_back:
+                stack_trace.append(
+                    "File : %s , Line : %d, Func.Name : %s, Message : %s" %
+                    (trace[0], trace[1], trace[2], trace[3])
+                )
+
+            logger.info(ex_value)
+            logger.debug(stack_trace)
+
+        scores.update('url', url, data)
+
+
+def fillsecuritygroup():
+    '''
+    assign securtiy group to scores table
+    :return:
+    '''
+
+    # scores = Database(Scores)
+    # feature = Database(Features)
+    # security_groups = Database(Security_Groups)
+    # import pdb
+    # pdb.set_trace()
+    #
+    # query = session.query(Security_Groups, Features).filter(
+    #     Features.url == Security_Groups.url
+    # )
+    #
+    # for url in scores.getcolumndata('url'):
+    #     url = str(url[0])
+    #     if security_groups.exist('url', url):
+    #
+    #         data = {}
+    #         data['url'] = url
+    #         data['group'] = security_groups.getdata('url', url)['groups']
+    #         scores.update('url', url, data)
 
 
 if __name__ == "__main__":
@@ -192,7 +361,8 @@ if __name__ == "__main__":
             p = prepareDataset
             s = similarity_score between features Vs wot & alexa
             sw = similarity_score between webcred_score and wot & alexa
-            w = calculate webcred_score
+            w = calculate all scores>> wot, alexa, webcred
+            g = add security group details to rank table
             q = quit
         '''
         )
@@ -204,9 +374,11 @@ if __name__ == "__main__":
         elif action == 's':
             getsimilarity()
         elif action == 'w':
-            fillwebcredscore()
+            fillallscore()
         elif action == 'sw':
             getsimilarity_Score()
+        elif action == 'g':
+            fillsecuritygroup()
         elif action == 'q':
             print('babaye')
             break

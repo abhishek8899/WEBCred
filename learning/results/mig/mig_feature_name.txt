@@ -1,0 +1,27 @@
+MIG Score 0.02
+Feature Count 91
+['symbols_contact', 'pos_SYM', 'html_tags_polyline', 'html_tags_header', 'tokens_digit', 'pos_PDT', 'outlinks', 'html_tags_article', 'html_tags_li', 'html_tags_meta', 'hyperlinks_email', 'pos_POS', 'pos_DT', 'html_tags_figure', 'html_tags_time', 'html_tags_path', 'html_tags_source', 'html_tags_cite', 'pos_RBS', 'html_tags_input', 'pos_WRB', 'html_tags_style', 'pos_RB', 'pos_RP', 'tokens_character', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_i', 'html_tags_p', 'html_tags_link', 'html_tags_iframe', 'pos_PRP', 'html_tags_label', 'html_tags_polygon', 'pos_NNPS', 'pos_``', 'html_tags_nav', 'pos_NN', 'html_tags_defs', 'brokenlinks', 'html_tags_fecolormatrix', 'pos_NNS', 'pos_VBN', 'pos_VBD', 'pos_VBG', 'pos_VBZ', 'pos_VBP', 'pos_:', 'html_tags_html', 'pos_.', 'pos_,', 'pos_$', 'html_tags_title', 'pos_CC', 'symbols_date', 'tokens_punctuation', 'pos_CD', 'tokens_word', 'pos_JJ', 'html_tags_noscript', 'html_tags_em', 'domain', 'pos_JJS', 'html_tags_img', 'html_tags_script', 'tokens_sentence', 'pos_MD', 'html_tags_image', 'pos_RBR', 'html_tags_footer', 'pos_WP$', 'html_tags_div', 'pos_TO', 'ads', 'pos_PRP$', 'html_tags_section', 'html_tags_span', 'html_tags_code', 'html_tags_textarea', 'pos_WP', 'pos_IN', 'html_tags_aside', 'html_tags_button', 'html_tags_ol', 'lastmod', 'html_tags_blockquote', 'html_tags_h2', 'html_tags_h3', 'pos_EX', 'depth']
+
+MIG Score 0.04
+Feature Count 66
+['symbols_contact', 'html_tags_header', 'tokens_digit', 'outlinks', 'html_tags_article', 'html_tags_meta', 'hyperlinks_email', 'pos_POS', 'pos_DT', 'html_tags_figure', 'html_tags_source', 'html_tags_cite', 'html_tags_input', 'pos_RB', 'pos_RP', 'tokens_character', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_link', 'html_tags_iframe', 'pos_PRP', 'html_tags_label', 'html_tags_polygon', 'pos_NNPS', 'pos_``', 'pos_NN', 'html_tags_defs', 'brokenlinks', 'pos_NNS', 'pos_VBN', 'pos_VBD', 'pos_VBG', 'pos_VBZ', 'pos_VBP', 'html_tags_html', 'pos_.', 'pos_,', 'html_tags_title', 'pos_CC', 'symbols_date', 'tokens_punctuation', 'pos_CD', 'tokens_word', 'pos_JJ', 'html_tags_noscript', 'html_tags_em', 'domain', 'html_tags_script', 'tokens_sentence', 'pos_MD', 'html_tags_footer', 'pos_WP$', 'html_tags_div', 'pos_TO', 'ads', 'html_tags_section', 'html_tags_span', 'pos_WP', 'pos_IN', 'html_tags_aside', 'html_tags_button', 'lastmod', 'html_tags_h3', 'pos_EX', 'depth']
+
+MIG Score 0.06
+Feature Count 45
+['symbols_contact', 'html_tags_header', 'outlinks', 'html_tags_article', 'html_tags_meta', 'pos_POS', 'pos_DT', 'html_tags_source', 'pos_RB', 'tokens_character', 'html_tags_a', 'pos_WDT', "pos_''", 'html_tags_link', 'html_tags_label', 'pos_NNPS', 'pos_``', 'pos_NN', 'html_tags_defs', 'pos_NNS', 'pos_VBN', 'pos_VBD', 'pos_VBG', 'pos_VBZ', 'html_tags_html', 'pos_,', 'html_tags_title', 'pos_CC', 'tokens_punctuation', 'html_tags_noscript', 'domain', 'html_tags_script', 'tokens_sentence', 'pos_MD', 'html_tags_footer', 'pos_WP$', 'pos_TO', 'ads', 'html_tags_span', 'pos_IN', 'html_tags_aside', 'html_tags_button', 'lastmod', 'pos_EX', 'depth']
+
+MIG Score 0.08
+Feature Count 24
+['html_tags_header', 'outlinks', 'html_tags_meta', 'pos_POS', 'pos_DT', 'pos_RB', 'tokens_character', 'pos_WDT', "pos_''", 'html_tags_link', 'html_tags_label', 'pos_``', 'pos_VBD', 'html_tags_html', 'html_tags_title', 'html_tags_noscript', 'domain', 'html_tags_script', 'tokens_sentence', 'pos_MD', 'html_tags_footer', 'ads', 'html_tags_aside', 'depth']
+
+MIG Score 0.1
+Feature Count 15
+['html_tags_header', 'html_tags_meta', 'pos_POS', 'pos_DT', 'pos_WDT', 'html_tags_link', 'pos_``', 'pos_VBD', 'html_tags_html', 'html_tags_title', 'domain', 'html_tags_script', 'tokens_sentence', 'html_tags_footer', 'depth']
+
+MIG Score 0.12
+Feature Count 8
+['html_tags_meta', 'pos_``', 'pos_VBD', 'html_tags_html', 'html_tags_title', 'domain', 'html_tags_script', 'depth']
+
+MIG Score 0.14
+Feature Count 5
+['html_tags_meta', 'pos_``', 'html_tags_html', 'html_tags_title', 'html_tags_script']

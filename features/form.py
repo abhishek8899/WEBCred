@@ -2,10 +2,12 @@ from bs4 import BeautifulSoup
 from features.content import get_matches
 from functools import wraps
 from urlparse import urlparse
-from utils.urls import Urlattributes
 
 import os
 import re
+
+
+# from utils.urls import Urlattributes
 
 
 def makeurl(func):
@@ -16,8 +18,10 @@ def makeurl(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if isinstance(args[0], Urlattributes):
-            return func(args[0].geturl())
+        # if isinstance(args[0], Urlattributes):
+        #     return func(args[0].geturl())
+        # else:
+        return func(args[0])
 
     return wrapper
 
@@ -51,10 +55,12 @@ def doc_type(url):
 
     path = (os.sep).join(path)
 
-    splitter = path.split('/')[-1].split('\.')
+    splitter = path.split('/')[-1].split('.')
     if len(splitter) > 1:
-        return splitter[-1]
-    return ''
+        type = splitter[-1]
+        if not type == 'htm':
+            return type
+    return 'html'
 
 
 @makeurl

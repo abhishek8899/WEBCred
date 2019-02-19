@@ -20,21 +20,20 @@ arrow = "*"
 python-dotenv = "*"
 matplotlib = "*"
 seaborn = "*"
-sklearn = "*"
 webcred = {editable = true, path = "."}
 gensim = "*"
-stanfordcorenlp = "*"
-flask = "*"
 # solution to, some RUNTIME warning issue from scipy & scikit
 # export PIP_NO_BINARY=scikit-learn
 # export PIP_NO_BINARY=scipy
 # export PIP_NO_BINARY=ALL
-scikit-learn = "*"
 pandas = "*"
-numpy = "*"
 regex = "*"
 fake-useragent = "*"
 timeout-decorator = "*"
+plotly = "*"
+numpy = "*"
+scikit-learn = "*"
+scipy = "*"
 
 [dev-packages]
 

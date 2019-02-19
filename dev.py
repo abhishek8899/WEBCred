@@ -4,13 +4,15 @@ BELOW ARE THE WORKER FUNCTIONS TO COLLECTDATA
 '''
 
 from app import collectData
-from utils import urls
+# from utils import urls
 from utils.databases import Genre_labels
 from utils.essentials import Database
-from utils.pipeline import Pipeline
 
 import json
 import logging
+
+
+# from utils.pipeline import Pipeline
 
 
 logger = logging.getLogger('WEBCred.dev')
@@ -66,7 +68,7 @@ if work == 'collectData':
     database = Database(Genre_labels)
     data = database.getdbdata()
 
-    for rows in data:
+    for rows in data[3459:]:
         url = rows['url']
         request['site'] = url
         # import pdb
@@ -109,70 +111,70 @@ if work == 'collectData':
 #             truncate_char += 1
 #             data.append(json.loads(str(element[truncate_char:])))
 
-if work == 'normalize':
-    # imgratio value are converted to int from float by multiple by 10^6
-    normalizeCategory = {
-        '3': {
-            'outlinks': 'reverse',
-            'inlinks': 'linear',
-            'ads': 'reverse',
-            'brokenlinks': 'reverse',
-            'pageloadtime': 'reverse',
-            'imgratio': 'linear'
-        },
-        '2': {
-            'misspelled': {
-                0: 1,
-                'else': 0
-            },
-            'cookie': {
-                'Yes': 0,
-                'No': 1
-            },
-            'responsive': {
-                'true': 1,
-                'false': 0
-            },
-        },
-        'not_sure': ['domain', 'langcount', 'lastmod'],
-        'misc': ['hyperlinks'],
-        'eval': ['wot']
-    }
-
-    for k in normalizeCategory['3'].items():
-        norm = urls.Normalize(data, k)
-        data = norm.normalize()
-
-    for k in normalizeCategory['2'].items():
-        norm = urls.Normalize(data, k)
-        data = norm.factoise()
-
-    for index in range(len(data)):
-        if data[index].get(normalizeCategory['misc'][0]):
-            tempData = data[index].get(normalizeCategory['misc'][0])
-            del data[index][normalizeCategory['misc'][0]]
-            for k, v in tempData.items():
-                data[index][k] = v
-
-    # print dt
-    work = 'csv'
-    csv_filename = 'normalized.csv'
-
-if work == 'csv':
-    pipe = Pipeline()
-    csv = pipe.convertjson(data)
-    f = open(csv_filename, 'w')
-    f.write(csv)
-    f.close()
-
-if work == 'json':
-    f = open(csv_filename, 'r')
-    data = f.readlines()
-    pipe = Pipeline()
-    jsonData = pipe.converttojson(data)
-    file_ = 'data/json/data.json'
-    file_ = open(file_, 'a')
-    for element in jsonData:
-        element = json.dumps(element) + '\n'
-        file_.write(element)
-    file_.close()
+# if work == 'normalize':
+#     # imgratio value are converted to int from float by multiple by 10^6
+#     normalizeCategory = {
+#         '3': {
+#             'outlinks': 'reverse',
+#             'inlinks': 'linear',
+#             'ads': 'reverse',
+#             'brokenlinks': 'reverse',
+#             'pageloadtime': 'reverse',
+#             'imgratio': 'linear'
+#         },
+#         '2': {
+#             'misspelled': {
+#                 0: 1,
+#                 'else': 0
+#             },
+#             'cookie': {
+#                 'Yes': 0,
+#                 'No': 1
+#             },
+#             'responsive': {
+#                 'true': 1,
+#                 'false': 0
+#             },
+#         },
+#         'not_sure': ['domain', 'langcount', 'lastmod'],
+#         'misc': ['hyperlinks'],
+#         'eval': ['wot']
+#     }
+#
+#     for k in normalizeCategory['3'].items():
+#         norm = urls.Normalize(data, k)
+#         data = norm.normalize()
+#
+#     for k in normalizeCategory['2'].items():
+#         norm = urls.Normalize(data, k)
+#         data = norm.factoise()
+#
+#     for index in range(len(data)):
+#         if data[index].get(normalizeCategory['misc'][0]):
+#             tempData = data[index].get(normalizeCategory['misc'][0])
+#             del data[index][normalizeCategory['misc'][0]]
+#             for k, v in tempData.items():
+#                 data[index][k] = v
+#
+#     # print dt
+#     work = 'csv'
+#     csv_filename = 'normalized.csv'
+#
+# if work == 'csv':
+#     pipe = Pipeline()
+#     csv = pipe.convertjson(data)
+#     f = open(csv_filename, 'w')
+#     f.write(csv)
+#     f.close()
+#
+# if work == 'json':
+#     f = open(csv_filename, 'r')
+#     data = f.readlines()
+#     pipe = Pipeline()
+#     jsonData = pipe.converttojson(data)
+#     file_ = 'data/json/data.json'
+#     file_ = open(file_, 'a')
+#     for element in jsonData:
+#         element = json.dumps(element) + '\n'
+#         file_.write(element)
+#     file_.close()

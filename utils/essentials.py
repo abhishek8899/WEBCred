@@ -17,10 +17,14 @@ import sys
 import threading
 import traceback
 
+
 excluding_keys = ['_sa_instance_state']
 
 with open('data/essentials/weightage.json') as f:
     weightage_data = json.load(f)
+
+with open('data/essentials/weights.json') as f:
+    weights = json.load(f)
 
 load_dotenv(dotenv_path='.env')
 
@@ -310,9 +314,12 @@ class Correlation(object):
     def __init__(self):
         pass
 
+    def getcorrelation(self, col1, col2):
+        df = pd.DataFrame({'col1': col1, 'col2': col2})
+        return df.corr(method='pearson')['col1']['col2']
+
     def getcorr(self, data, features_name):
 
-        # supply data to np.coorcoef
         dataframe = pd.DataFrame(
             data=np.asarray(data)[0:, 0:],
             index=np.asarray(data)[0:, 0],

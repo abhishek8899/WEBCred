@@ -3,7 +3,7 @@ import re
 
 
 # location where raw data (html, text) will be dumped
-loct = 'data/dump'
+loct = 'data_crawl/dump'
 
 
 # dump text of webpage

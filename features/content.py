@@ -3,7 +3,6 @@ Before running this file. Start the server
 '''
 # from features.tfidf import all_files
 
-
 # from features.tfidf import global_terms_in_doc
 # from features.tfidf import num_docs
 from functools import wraps
@@ -11,8 +10,6 @@ from functools import wraps
 # from features.tfidf import global_term_freq
 from nltk import sent_tokenize
 from stanfordcorenlp import StanfordCoreNLP
-from utils.essentials import WebcredError
-from utils.urls import Urlattributes
 
 import json
 # import math
@@ -22,6 +19,9 @@ import regex as currency_re
 import string
 import sys
 
+
+# from utils.essentials import WebcredError
+# from utils.urls import Urlattributes
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -143,10 +143,10 @@ def makestr(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if isinstance(args[0], Urlattributes):
-            args = list(args)
-            args[0] = args[0].gettext()
-            args = tuple(args)
+        # if isinstance(args[0], Urlattributes):
+        #     args = list(args)
+        #     args[0] = args[0].gettext()
+        #     args = tuple(args)
         if not all(isinstance(arg, str) for arg in args):
             return func(*[str(arg) for arg in args], **kwargs)
         return func(*args, **kwargs)
@@ -324,6 +324,8 @@ def getPos(paragraph):
 
     posCount = {}
     tags_list = sNLP.pos(paragraph)
+    # import pdb
+    # pdb.set_trace()
     for items in tags_list:
         if items[1] in posCount.keys():
             posCount[items[1]] += 1
@@ -378,8 +380,9 @@ def getIndividualTokens(paragraph):
         try:
             individual_token[key] = len(func(paragraph))
         except Exception:
-            error = WebcredError()
-            error.traceerror(log='info')
+            # error = WebcredError()
+            # error.traceerror(log='info')
+            pass
 
     return individual_token
 
@@ -424,3 +427,4 @@ if __name__ == '__main__':
     # print("Dep Parse:", sNLP.dependency_parse(text))
     # print(sNLP.question(text))
     # val = sNLP.getnlp()._request(annotators='sentiment', data=text)
+    # getPos(sen)

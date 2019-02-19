@@ -18,6 +18,11 @@ import traceback
 import types
 import validators
 
+from utils.essentials import db
+from sqlalchemy.orm import sessionmaker
+
+from utils.databases import Genre_labels
+
 ua = UserAgent()
 logger = logging.getLogger('WEBCred.urls')
 logging.basicConfig(
@@ -27,6 +32,10 @@ logging.basicConfig(
     datefmt='%m/%d/%Y %I:%M:%S %p',
     level=logging.DEBUG
 )
+
+Session = sessionmaker()
+Session.configure(bind=db.engine)
+session = Session()
 
 global patternMatching
 patternMatching = None
@@ -314,8 +323,7 @@ class Normalize(object):
                     value = self.getDateDifference(value)
                     if value < lastmodMaxMonths:
                         self.data[index][
-                            self.name
-                        ] = self.factorise.get(lastmodMaxMonths)
+                            self.name] = self.factorise.get(lastmodMaxMonths)
                         modified = 1
 
                 # condition for everything else
@@ -346,8 +354,9 @@ class Urlattributes(object):
 
         global normalizedData
         global normalizeCategory
-        if normalizedData:
-            # if not normalizedData:
+        # if normalizedData:
+        if not normalizedData:
+            print 'normalizing data for scoring'
             normalizedData = {}
 
             # deprecated method of retrieving data from json dump
@@ -386,7 +395,21 @@ class Urlattributes(object):
             '''
             # get data from postgres
             db = Database(Features)
-            data = db.getdbdata()
+
+            # data = db.getdbdata()
+
+            # Alternative solution to get genre_feature_url_data
+            query = session.query(Genre_labels, Features).filter(
+                Features.url == Genre_labels.url
+            ).filter(Features.error == None)
+
+            data = []
+            for url in query.all():
+                i = str(url[0])
+
+                # if not db.getdata('url', i).get('error'):
+                local_data = db.getdata('url', i)
+                data.append(local_data)
 
             it = normalizeCategory['3'].items()
             for k in it:

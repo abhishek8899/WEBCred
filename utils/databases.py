@@ -71,8 +71,57 @@ class Ranks(Base):
     alexa = db.Column(db.Integer())
     wot_confidence = db.Column(db.Integer())
     wot_reputation = db.Column(db.Integer())
-    alexa = db.Column(db.Integer())
     wot = db.Column(db.FLOAT())
+
+    def __init__(self, data):
+        for key in data.keys():
+            setattr(self, key, data[key])
+
+    def __repr__(self):
+        return self.url
+
+
+class Security_Groups(Base):
+    __tablename__ = 'security_groups'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(), unique=True)
+    group = db.Column(db.String())
+
+    def __init__(self, data):
+        for key in data.keys():
+            setattr(self, key, data[key])
+
+    def __repr__(self):
+        return self.url
+
+
+class Manual_labels(Base):
+    __tablename__ = 'manual_labels'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(), unique=True)
+    which_genre_does_this_web_page_belongs_to = db.Column(db.String())
+
+    def __init__(self, data):
+        for key in data.keys():
+            setattr(self, key, data[key])
+
+    def __repr__(self):
+        return self.url
+
+
+class Scores(Base):
+    __tablename__ = 'scores'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(), unique=True)
+    which_genre_does_this_web_page_belongs_to = db.Column(db.String())
+    alexa = db.Column(db.Integer())
+    wot_confidence = db.Column(db.Integer())
+    wot_reputation = db.Column(db.Integer())
+    wot = db.Column(db.FLOAT())
+    gcs = db.Column(db.FLOAT())
 
     def __init__(self, data):
         for key in data.keys():

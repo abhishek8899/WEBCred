@@ -1,5 +1,5 @@
 from datetime import datetime
-from features import *  # noqa
+# from features import *  # noqa
 from utils.essentials import apiList
 from utils.essentials import genreList
 from utils.essentials import merge_two_dicts
@@ -240,8 +240,8 @@ def webcred_score(data, request):
                 data[name] = normalizedData[k].getfactoise(v)
                 score += data[name] * float(request[perc])
 
-            if k in normalizeCategory['misc'
-                                      ].keys() and perc in request.keys():
+            if k in normalizeCategory['misc'].keys() and perc in request.keys(
+            ):
                 sum_hyperlinks_attributes = 0
                 try:
                     for key, value in v.items():
@@ -256,8 +256,7 @@ def webcred_score(data, request):
         except Exception:
             error = WebcredError()
             error.traceerror()
-
-    data["webcred_score"] = score / 100
+    data["webcred_score"] = score / 100.0
 
     # TODO add Weightage score for new dimensions
     return data
