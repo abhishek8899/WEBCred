@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 from flask import jsonify
 from flask import render_template
 from flask import request
-from utils.databases import Features
+# from utils.databases import Features
+from utils.databases import Health_Features
 from utils.essentials import app
 from utils.essentials import Database
 from utils.essentials import WebcredError
@@ -118,7 +119,7 @@ def collectData(request):
 
     try:
 
-        database = Database(Features)
+        database = Database(Health_Features)
         dt = Genre(database, request)
         data = dt.assess()
         # store it in data, if webcred throws no error

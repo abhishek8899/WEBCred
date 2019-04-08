@@ -5,15 +5,15 @@ BELOW ARE THE WORKER FUNCTIONS TO COLLECTDATA
 
 from app import collectData
 # from utils import urls
-from utils.databases import Genre_labels
+# from utils.databases import Genre_labels
+from utils.databases import Health
 from utils.essentials import Database
 
-import json
+# import json
 import logging
 
 
 # from utils.pipeline import Pipeline
-
 
 logger = logging.getLogger('WEBCred.dev')
 logging.basicConfig(
@@ -31,9 +31,9 @@ data = []
 
 if work == 'collectData':
     # all urls
-    link = open('data/essentials/complete_urls.txt', 'r')
-    links = link.readlines()
-    link.close()
+    # link = open('data/essentials/complete_urls.txt', 'r')
+    # links = link.readlines()
+    # link.close()
 
     # stitched request
     request = {
@@ -65,10 +65,11 @@ if work == 'collectData':
     # count = len(links)
     # tempcounter = counter = len(tempData)
 
-    database = Database(Genre_labels)
+    import pdb
+    pdb.set_trace()
+    database = Database(Health)
     data = database.getdbdata()
-
-    for rows in data[3459:]:
+    for index, rows in enumerate(data):
         url = rows['url']
         request['site'] = url
         # import pdb
@@ -83,7 +84,7 @@ if work == 'collectData':
         ]
         logger.info(
             'url_index= {0}, None_data= {1}'.format(
-                links.index(url),
+                index,
                 [
                     keys for keys in data.keys() if not keys.endswith('norm')
                     and not data[keys] and keys not in unrelated_keys

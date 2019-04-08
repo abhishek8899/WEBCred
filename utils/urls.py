@@ -354,8 +354,8 @@ class Urlattributes(object):
 
         global normalizedData
         global normalizeCategory
-        # if normalizedData:
-        if not normalizedData:
+        if normalizedData:
+            # if not normalizedData:
             print 'normalizing data for scoring'
             normalizedData = {}
 
@@ -401,7 +401,7 @@ class Urlattributes(object):
             # Alternative solution to get genre_feature_url_data
             query = session.query(Genre_labels, Features).filter(
                 Features.url == Genre_labels.url
-            ).filter(Features.error == None)
+            ).filter(Features.error == None)  # noqa
 
             data = []
             for url in query.all():
