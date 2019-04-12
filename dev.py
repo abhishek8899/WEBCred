@@ -65,15 +65,11 @@ if work == 'collectData':
     # count = len(links)
     # tempcounter = counter = len(tempData)
 
-    import pdb
-    pdb.set_trace()
     database = Database(Health)
-    data = database.getdbdata()
+    data = database.getcolumndata('url')
     for index, rows in enumerate(data):
-        url = rows['url']
+        url = rows[0]
         request['site'] = url
-        # import pdb
-        # pdb.set_trace()
         data = collectData(request)
         print(
             'assessed url = {0} with data = {1}'.format(request['site'], data)
@@ -91,11 +87,6 @@ if work == 'collectData':
                 ]
             )
         )
-        # data_file = open(new_id, 'a')
-        # data.append(dt)
-        # content = json.dumps(dt) + '\n'
-        # data_file.write(content)
-        # data_file.close()
 
 # if not data:
 #     file_ = 'data/json/data2.json'

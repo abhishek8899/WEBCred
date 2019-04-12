@@ -17,7 +17,6 @@ import sys
 import threading
 import traceback
 
-
 excluding_keys = ['_sa_instance_state']
 
 with open('data/essentials/weightage.json') as f:
@@ -88,6 +87,8 @@ apiList = {
     'pageloadtime': ['surface.getPageloadtime', '', 'norm', 'Integer'],
     'text': ['utilities.dumpText', '', '', 'String'],
     'html': ['utilities.dumpHtml', '', '', 'String'],
+    'wot': ['surface.getWot', '', '', 'FLOAT'],
+    'alexa': ['surface.getAlexarank', '', '', 'integer']
 }
 
 genreList = {
