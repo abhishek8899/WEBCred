@@ -88,7 +88,7 @@ apiList = {
     'text': ['utilities.dumpText', '', '', 'String'],
     'html': ['utilities.dumpHtml', '', '', 'String'],
     'wot': ['surface.getWot', '', '', 'FLOAT'],
-    'alexa': ['surface.getAlexarank', '', '', 'integer']
+    'alexa': ['surface.getAlexarank', '', '', 'Integer']
 }
 
 genreList = {

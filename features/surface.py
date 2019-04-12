@@ -78,6 +78,7 @@ def getWot(url):
         data = {}
         data['reputation'] = int(result[0])
         data['confidence'] = int(result[1])
+        data = data['reputation'] * data['confidence'] / 10000.0
     return data
 
 
