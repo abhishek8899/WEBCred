@@ -95,7 +95,7 @@ genreList = {
     'pos': ['content.getPos', '', '', 'JSON'],
     'symbols': ['content.getSymbols', '', '', 'JSON'],
     'tokens': ['content.getIndividualTokens', '', '', 'JSON'],
-    # 'sentiment': ['content.getSentiment', '', '', 'JSON'],
+    'sentiment': ['content.getSentiment', '', '', 'JSON'],
     'depth': ['form.depth', '', '', 'Integer'],
     'doc_type': ['form.doc_type', '', '', 'String(120)'],
     'lexical_terms': ['form.lexical', '', '', 'JSON'],

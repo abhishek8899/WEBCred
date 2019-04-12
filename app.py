@@ -103,7 +103,7 @@ def page_not_found(e):
 # FIXME Robustness
 # TODO run collectdata through a child process,
 # which should be restarted, if mem excedes some (80%) limit
-@timeout_decorator.timeout(1)
+@timeout_decorator.timeout(300)
 def collectData(request):
 
     data = {}

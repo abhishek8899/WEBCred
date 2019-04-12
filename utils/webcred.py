@@ -1,5 +1,5 @@
 from datetime import datetime
-# from features import *  # noqa
+from features import *  # noqa
 from utils.essentials import apiList
 from utils.essentials import genreList
 from utils.essentials import merge_two_dicts
