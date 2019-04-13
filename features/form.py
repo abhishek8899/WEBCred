@@ -3,7 +3,6 @@ from features.content import get_matches
 from functools import wraps
 from urlparse import urlparse
 
-import os
 import re
 
 
@@ -29,14 +28,16 @@ def makeurl(func):
 @makeurl
 def depth(url):
 
-    path = urlparse(url=url).path.split('/')
+    path = urlparse(url=url).path
 
-    if not path[-1]:
-        del path[-1]
+    length = 0
 
-    path = (os.sep).join(path)
+    if path[0] == '/' or path[-1] == '/':
+        length = -1
 
-    return len(path.split('/'))
+    length += len(path.split('/'))
+
+    return length
 
 
 # already covered in surface features
@@ -48,14 +49,15 @@ def depth(url):
 
 @makeurl
 def doc_type(url):
-    path = urlparse(url=url).path.split('/')
 
-    if not path[-1]:
-        del path[-1]
+    path = urlparse(url=url).path
 
-    path = (os.sep).join(path)
+    if path[-1] == '/':
+        path = path[:-1]
 
-    splitter = path.split('/')[-1].split('.')
+    path = path.split('/')[-1]
+
+    splitter = path.split('.')
     if len(splitter) > 1:
         type = splitter[-1]
         if not type == 'htm':
