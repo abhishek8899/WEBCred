@@ -6,7 +6,7 @@ from urlparse import urlparse
 import re
 
 
-# from utils.urls import Urlattributes
+from utils.urls import Urlattributes
 
 
 def makeurl(func):
@@ -17,10 +17,10 @@ def makeurl(func):
 
     @wraps(func)
     def wrapper(*args, **kwargs):
-        # if isinstance(args[0], Urlattributes):
-        #     return func(args[0].geturl())
-        # else:
-        return func(args[0])
+        if isinstance(args[0], Urlattributes):
+            return func(args[0].geturl())
+        else:
+            return func(args[0])
 
     return wrapper
 

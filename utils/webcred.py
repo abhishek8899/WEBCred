@@ -114,7 +114,7 @@ def check_data_existence(db, data):
 
             data = dbdata
             # do not assess this url again
-            existing_features = data.keys()
+            existing_features = [k for k, v in data.items() if v]
 
             # check the ones from columns which have non None value
             # '''
