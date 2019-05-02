@@ -323,9 +323,10 @@ class Correlation(object):
 
         dataframe = pd.DataFrame(
             data=np.asarray(data)[0:, 0:],
-            index=np.asarray(data)[0:, 0],
+            index=[i for i in range(len(data))],
             columns=features_name
         )
+
         corr = dataframe.corr()
 
         return corr
@@ -339,9 +340,10 @@ class Correlation(object):
             corr,
             xticklabels=features_name,
             yticklabels=features_name,
-            cmap=sns.diverging_palette(220, 10, as_cmap=True)
+            cmap=sns.diverging_palette(240, 10, n=10, as_cmap=True)
         )
         # show graph plot of correlation
+
         pl.show()
 
 

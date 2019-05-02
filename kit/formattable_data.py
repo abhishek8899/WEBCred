@@ -6,7 +6,7 @@
 - include genre column
 '''
 
-from collections import Counter
+# from collections import Counter
 # mapping = {
 #     1: 'help',
 #     2: 'article',
@@ -14,19 +14,21 @@ from collections import Counter
 #     4: 'shop',
 #     5: 'public_portrayals_companies_and_institutions',
 #     6: 'private_portrayal_personal_homepage',
-#     7: 'link_collection',
-#     8: 'downloads'
+
 # }
 #
-from copy import deepcopy as cc
-from sklearn.metrics.pairwise import cosine_similarity
+
+#     8: 'downloads'
+# from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy.orm import sessionmaker
-from utils.databases import Features
-from utils.databases import Genre_labels
-from utils.databases import Manual_labels
-from utils.databases import Scores
-from utils.databases import Security_Groups
-from utils.essentials import Correlation
+# from copy import deepcopy as cc
+#     7: 'link_collection',
+from utils.databases import Health as Genre_labels
+from utils.databases import Health_Features as Features
+# from utils.databases import Scores
+# from utils.databases import Manual_labels
+# from utils.databases import Security_Groups
+# from utils.essentials import Correlation
 from utils.essentials import Database
 from utils.essentials import db
 
@@ -34,8 +36,8 @@ import csv
 import json
 import logging
 import os
-import pandas as pd
-import pdb
+# import pandas as pd
+# import pdb
 import pickle
 import sys
 import traceback
@@ -43,9 +45,10 @@ import traceback
 
 Session = sessionmaker()
 Session.configure(bind=db.engine)
+
 session = Session()
 
-logger = logging.getLogger('similarity_score')
+logger = logging.getLogger('formattable_data')
 logging.basicConfig(
     filename='log/logging.log',
     filemode='a',
@@ -59,9 +62,9 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 
 # filename = 'data/dump/webcred_features/webcred_public_features.csv'
-features_norm_dump = 'data/dump/webcred_features/features_norm.p'
+features_norm_dump = 'data/dump/health/webcred_features/features_norm.p'
 # url_norm_dump = 'data/dump/webcred_features/url_norm.p'
-final_csv = 'data/dump/webcred_features_expanded.csv'
+final_csv = 'data/dump/health/webcred_features_expanded.csv'
 # final_csv = 'data/dump/filtered_label_genre.csv'
 # figure_eight_label = 'data/essentials/figure_eight_labelled.txt'
 # genre_label = 'data/Genre_Labels/dump/figure-eight/' \
@@ -92,8 +95,8 @@ features_norm_dict = {}
 
 # remove old csv file
 try:
-    pass
-    # os.remove(final_csv)
+    # pass
+    os.remove(final_csv)
 except OSError:
     pass
 
@@ -146,7 +149,7 @@ except IOError:
 #         session.query(Manual_labels, Genre_labels).filter(
 #             Manual_labels.url == Genre_labels.url
 #         ).filter(
-#             Manual_labels.which_genre_does_this_web_page_belongs_to == Genre_labels.
+#             Manual_labels.which_genre_does_this_web_page_belongs_to == Genre_labels. # noqa
 #             which_genre_does_this_web_page_belongs_to
 #         ).filter(Genre_labels.confidence >= i / 10.0).all()
 #     )
@@ -162,7 +165,7 @@ except IOError:
 
 # scores = Database(Scores)
 genre = Database(Genre_labels)
-scores = Database(Scores)
+# scores = Database(Scores)
 # data = genre.getdbdata()
 
 'get features data into a dict corresponding to url'
@@ -170,7 +173,7 @@ features = Database(Features)
 
 print('now iterating over data')
 
-# # get all which_genre_does_this_web_page_belongs_to urls and process them further
+# # get all which_genre_does_this_web_page_belongs_to urls and process them further # noqa
 # for rows in scores.getcolumndata('url'):
 #     rows = scores.getdata('url', str(rows[0]))
 #     if rows.get('which_genre_does_this_web_page_belongs_to'):
@@ -234,29 +237,30 @@ data = {}
 # get all URLs with labels
 
 # self labelled URLs
-query = session.query(Scores, Features).filter(
-    Features.url == Scores.url
-).filter(Features.error == None
-         ).filter(Scores.which_genre_does_this_web_page_belongs_to != None
-                  ).all()
-
-for rows in query:
-    url = str(rows[0])
-    label = scores.getdata('url',
-                           url)['which_genre_does_this_web_page_belongs_to']
-    if label:
-        data[url] = label
+# # query = session.query(Scores, Features).filter(
+# #     Features.url == Scores.url
+# # ).filter(Features.error == None
+# #          ).filter(Scores.which_genre_does_this_web_page_belongs_to != None
+# #                   ).all()
+#
+# for rows in query:
+#     url = str(rows[0])
+#     label = scores.getdata('url',
+#                            url)['which_genre_does_this_web_page_belongs_to']
+#     if label:
+#         data[url] = label
 
 # crowdsource labelled URLs
 query = session.query(Genre_labels, Features).filter(
     Features.url == Genre_labels.url
-).filter(Features.error == None).filter(Genre_labels.confidence >= 1).all()
+).filter(Features.error == None).filter(Genre_labels.genre != None
+                                        ).all()  # noqa
 
 for rows in query:
     url = str(rows[0])
     if not data.get(url):
         rows = genre.getdata('url', url)
-        data[url] = rows['which_genre_does_this_web_page_belongs_to']
+        data[url] = rows['genre']
 
 # serc labelled URLs
 
@@ -273,110 +277,108 @@ for rows in query:
 #             data[url] = rows['which_genre_does_this_web_page_belongs_to']
 
 # building individual csv
-location = 'data/Genre_labels/SERC-labels/Genre Labelling/'
-names = [
-    # 'Mohit',
-    'Siddharth',
-    'Palash',
-    'Vivek',
-    'Sai Anirudh',
-    # 'Ali',
-]
+# location = 'data/Genre_labels/SERC-labels/Genre Labelling/'
+# names = [
+#     # 'Mohit',
+#     'Siddharth',
+#     'Palash',
+#     'Vivek',
+#     'Sai Anirudh',
+#     # 'Ali',
+# ]
 
-baseData = cc(data)
-for i in names:
-    data = cc(baseData)
-    temp = location + i + '.csv'
-    di = pd.read_csv(temp)
-    for url, label in [(elem, di['genre'][index])
-                       for index, elem in enumerate(di['urls'])]:
-        data[url] = label
+# baseData = cc(data)
+# for i in names:
+#     data = cc(baseData)
+#     temp = location + i + '.csv'
+#     di = pd.read_csv(temp)
+#     for url, label in [(elem, di['genre'][index])
+#                        for index, elem in enumerate(di['urls'])]:
+#         data[url] = label
 
-    # pdb.set_trace()
+# pdb.set_trace()
 
-    for url, label in data.items():
-        # rows = genre.getdata('url', str(rows[0]))
-        # # if float(rows['confidence']) >= label_confidence:
-        # label = rows['which_genre_does_this_web_page_belongs_to']
+for url, label in data.items():
+    # rows = genre.getdata('url', str(rows[0]))
+    # # if float(rows['confidence']) >= label_confidence:
+    # label = rows['which_genre_does_this_web_page_belongs_to']
 
-        # 'make desired csv'
+    # 'make desired csv'
 
-        if isinstance(label, float) or label in ['broken_link', 'other', '0.0'
-                                                 ]:
+    if isinstance(label, float) or label in ['broken_link', 'other', '0.0']:
+        continue
+
+    try:
+        rows = features.getdata('url', url)
+
+        if not rows:
             continue
+#
+        rows['genre'] = label
+        # pdb.set_trace()
+        #
+        for key in rows.keys():
 
-        try:
-            rows = features.getdata('url', url)
-
-            if not rows:
+            # delete redundant keys
+            if key in redundant_keys or key.endswith('norm') or key.endswith(
+                    'Norm'):
+                del rows[key]
                 continue
-    #
-            rows['genre'] = str(label.split('\n')[0])
-            # pdb.set_trace()
-            #
-            for key in rows.keys():
 
-                # delete redundant keys
-                if key in redundant_keys or key.endswith(
-                        'norm') or key.endswith('Norm'):
-                    del rows[key]
-                    continue
+            # normalize values
+            if isinstance(rows[key], unicode) or isinstance(rows[key], bool):
+                rows[key] = str(rows[key]).lower()
+                if key not in features_norm_dict.keys():
+                    features_norm_dict[key] = []
 
-                # normalize values
-                if isinstance(rows[key], unicode) or isinstance(rows[key],
-                                                                bool):
-                    rows[key] = str(rows[key]).lower()
-                    if key not in features_norm_dict.keys():
-                        features_norm_dict[key] = []
+                if rows[key] not in features_norm_dict[key]:
+                    features_norm_dict[key].append(rows[key])
 
-                    if rows[key] not in features_norm_dict[key]:
-                        features_norm_dict[key].append(rows[key])
+                rows[key] = features_norm_dict[key].index(rows[key])
 
-                    rows[key] = features_norm_dict[key].index(rows[key])
+            # convert dict to list
+            if isinstance(rows[key], dict):
+                for k, v in rows[key].items():
+                    pretty_key = key + '_' + k
+                    rows[pretty_key] = v
+                del rows[key]
 
-                # convert dict to list
-                if isinstance(rows[key], dict):
-                    for k, v in rows[key].items():
-                        pretty_key = key + '_' + k
-                        rows[pretty_key] = v
-                    del rows[key]
+        # get csvfileheaders
+        csv_headers += rows.keys()
 
-            # get csvfileheaders
-            csv_headers += rows.keys()
+        # write row to csv
+        csv_data.append(json.dumps(rows))
 
-            # write row to csv
-            csv_data.append(json.dumps(rows))
+    except Exception:
+        # Get current system exception
+        ex_type, ex_value, ex_traceback = sys.exc_info()
 
-        except Exception:
-            # Get current system exception
-            ex_type, ex_value, ex_traceback = sys.exc_info()
+        # Extract unformatter stack traces as tuples
+        trace_back = traceback.extract_tb(ex_traceback)
 
-            # Extract unformatter stack traces as tuples
-            trace_back = traceback.extract_tb(ex_traceback)
+        # Format stacktrace
+        stack_trace = list()
 
-            # Format stacktrace
-            stack_trace = list()
+        for trace in trace_back:
+            stack_trace.append(
+                "File : %s , Line : %d, Func.Name : %s, Message : %s" %
+                (trace[0], trace[1], trace[2], trace[3])
+            )
 
-            for trace in trace_back:
-                stack_trace.append(
-                    "File : %s , Line : %d, Func.Name : %s, Message : %s" %
-                    (trace[0], trace[1], trace[2], trace[3])
-                )
+        logger.info(ex_value)
+        logger.debug(stack_trace)
 
-            logger.info(ex_value)
-            logger.debug(stack_trace)
+with open(final_csv, 'w') as csv_file:
+    writer = csv.DictWriter(csv_file, fieldnames=list(set(csv_headers)))
+    print('writing headers')
+    writer.writeheader()
+    print('writing rows')
+    for rows in csv_data:
+        rows = json.loads(rows)
+        writer.writerow(rows)
 
-    with open(final_csv.split('.')[0] + '_' + i + '.csv', 'w') as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=list(set(csv_headers)))
-        print('writing headers')
-        writer.writeheader()
-        print('writing rows')
-        for rows in csv_data:
-            rows = json.loads(rows)
-            writer.writerow(rows)
-
-    print('dumping pickle {}'.format(features_norm_dict))
-    pickle.dump(features_norm_dict, open(features_norm_dump, 'wb'))
+print('dumping pickle {}'.format(features_norm_dict))
+pickle.dump(features_norm_dict, open(features_norm_dump, 'wb'))
 
 print('A job well done!!')
 "------------------------------------------------------------------------"

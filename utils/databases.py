@@ -186,6 +186,9 @@ class Health(Base):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(), unique=True)
     topic = db.Column(db.String())
+    crawl = db.Column(db.Boolean())
+    genre = db.Column(db.String())
+    gcs = db.Column(db.FLOAT())
 
     def __init__(self, data):
         for key in data.keys():

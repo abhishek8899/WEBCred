@@ -1,11 +1,15 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
-from html2text import html2text
-from urlparse import urlparse
-from utils.databases import Features
-from utils.essentials import Database
-from utils.essentials import WebcredError
 from fake_useragent import UserAgent
+from html2text import html2text
+from sqlalchemy.orm import sessionmaker
+from urlparse import urlparse
+from utils.databases import Health as Genre_labels
+from utils.databases import Health_Features as Features
+from utils.essentials import Database
+from utils.essentials import db
+from utils.essentials import WebcredError
+
 import arrow
 import copy
 import logging
@@ -17,11 +21,6 @@ import threading
 import traceback
 import types
 import validators
-
-from utils.essentials import db
-from sqlalchemy.orm import sessionmaker
-
-from utils.databases import Genre_labels
 
 ua = UserAgent()
 logger = logging.getLogger('WEBCred.urls')
@@ -52,7 +51,7 @@ global lastmodMaxMonths
 # 3 months
 lastmodMaxMonths = 93
 
-# define rules to normalize data
+# define rules to normalize dataw
 global normalizeCategory
 normalizeCategory = {
     '3': {
@@ -354,8 +353,8 @@ class Urlattributes(object):
 
         global normalizedData
         global normalizeCategory
-        if normalizedData:
-            # if not normalizedData:
+        # if normalizedData:
+        if not normalizedData:
             print 'normalizing data for scoring'
             normalizedData = {}
 
@@ -401,9 +400,13 @@ class Urlattributes(object):
             # Alternative solution to get genre_feature_url_data
             query = session.query(Genre_labels, Features).filter(
                 Features.url == Genre_labels.url
-            ).filter(Features.error == None)  # noqa
+            ).filter(Features.error == None).filter(
+                Genre_labels.genre != None
+            )  # noqa
 
             data = []
+
+            print 'collected required url for normalization'
             for url in query.all():
                 i = str(url[0])
 
@@ -411,6 +414,7 @@ class Urlattributes(object):
                 local_data = db.getdata('url', i)
                 data.append(local_data)
 
+            print 'collected data for normalization'
             it = normalizeCategory['3'].items()
             for k in it:
                 normalizedData[k[0]] = Normalize(data, k)
@@ -439,6 +443,7 @@ class Urlattributes(object):
                 normalizedData[k[0]] = Normalize(data, k)
                 data = normalizedData[k[0]].factoise()
 
+            print 'normalized all categories'
             # csv_filename = 'analysis/WebcredNormalized.csv'
             #
             # pipe = Pipeline()
