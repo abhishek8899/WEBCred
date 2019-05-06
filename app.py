@@ -47,7 +47,7 @@ class Captcha(object):
 
 @app.route("/start", methods=['GET'])
 def start():
-
+    print ("assess credibility")
     addr = request.environ.get('REMOTE_ADDR')
     g_recaptcha_response = request.args.get('g-recaptcha-response', None)
     response_captcha = Captcha(ip=addr, resp=g_recaptcha_response)
@@ -64,6 +64,7 @@ def start():
 
 @app.route("/")
 def index():
+    print ("render source.html")
     return render_template("index.html")
 
 
@@ -75,7 +76,7 @@ def page_not_found(e):
 def collectData(request):
 
     try:
-
+        print ("assess")
         database = Database(Features)
         dt = Webcred(database, request)
         data = dt.assess()
@@ -112,6 +113,6 @@ if __name__ == "__main__":
     app.run(
         threaded=True,
         host='0.0.0.0',
-        debug=False,
+        debug=True,
         port=5050,
     )
