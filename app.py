@@ -95,10 +95,10 @@ def appinfo(url=None):
     # print
     while True:
         info = subprocess.check_output(cmd)
-        print info
+        print (info)
         time.sleep(3)
 
-    print 'exiting appinfo'
+    print ('exiting appinfo')
     return None
 
 

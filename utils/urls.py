@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 from html2text import html2text
-from urlparse import urlparse
+from urllib.parse import urlparse
 from utils.databases import Features
 from utils.essentials import Database
 from utils.essentials import WebcredError
@@ -117,7 +117,7 @@ class PatternMatching(object):
                 self.adsList = ads.read().split()
                 self.adsPattern = self.regexCompile(self.adsList)
                 ads.close()
-                print 'successfull with ads compilation'
+                print ('successfull with ads compilation')
             except WebcredError as e:
                 raise WebcredError(e.message)
             except:
@@ -236,13 +236,13 @@ class Normalize(object):
     def getmean(self):
         if not self.mean:
             self.mean = statistics.mean(self.getdatalist())
-            print "mean=", self.mean, self.name
+            print ("mean=", self.mean, self.name)
         return self.mean
 
     def getdeviation(self):
         if not self.deviation:
             self.deviation = statistics.pstdev(self.getdatalist())
-            print "deviation=", self.deviation, self.name
+            print ("deviation=", self.deviation, self.name)
         return self.deviation
 
     def getscore(self, value):
@@ -343,7 +343,7 @@ class Urlattributes(object):
                 lang_iso='data/essentials/lang_iso.txt',
                 ads_list='data/essentials/easylist.txt'
             )
-            print 'end patternMatching'
+            print ('end patternMatching')
 
         global normalizedData
         global normalizeCategory
@@ -409,7 +409,7 @@ class Urlattributes(object):
             data = normalizedData[it[0]].normalize()
 
             for k in normalizeCategory['2'].items():
-                print "normalizing", k
+                print ("normalizing", k)
                 normalizedData[k[0]] = Normalize(data, k)
                 data = normalizedData[k[0]].factoise()
 
@@ -422,7 +422,8 @@ class Urlattributes(object):
             # f.close()
 
     except WebcredError as e:
-        raise WebcredError(e.message)
+        # raise WebcredError(e.message)
+        pass
 
     def __init__(self, url=None):
         # print 'here'

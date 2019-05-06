@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from nltk.corpus import wordnet
 from nltk.tag import pos_tag
 from nltk.tokenize import word_tokenize
-from urlparse import urlparse
+from urllib.parse import urlparse
 from utils.essentials import MyThread
 from utils.essentials import WebcredError
 from utils.urls import Urlattributes
