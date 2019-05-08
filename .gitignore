@@ -4,4 +4,4 @@ log/*
 .env
 stanford-corenlp-full-2018-02-27/*
 /stanford-corenlp-full/
-/nltk/
+nltk/*
