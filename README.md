@@ -51,4 +51,8 @@ with correct values.
 ## Test
 
 Start the webserver - `$: python app.py`
+
+
+
+Please find documentation for some external packages @ `./packages_info/`
     

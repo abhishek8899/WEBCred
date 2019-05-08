@@ -1,0 +1,501 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: package bs4</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>bs4</strong></big></big> (version 4.6.0)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/usr/local/lib/python2.7/dist-packages/bs4/__init__.py">/usr/local/lib/python2.7/dist-packages/bs4/__init__.py</a></font></td></tr></table>
+    <p><tt>Beautiful&nbsp;Soup<br>
+Elixir&nbsp;and&nbsp;Tonic<br>
+"The&nbsp;Screen-Scraper's&nbsp;Friend"<br>
+<a href="http://www.crummy.com/software/BeautifulSoup/">http://www.crummy.com/software/BeautifulSoup/</a><br>
+&nbsp;<br>
+Beautiful&nbsp;Soup&nbsp;uses&nbsp;a&nbsp;pluggable&nbsp;XML&nbsp;or&nbsp;HTML&nbsp;parser&nbsp;to&nbsp;parse&nbsp;a<br>
+(possibly&nbsp;invalid)&nbsp;document&nbsp;into&nbsp;a&nbsp;tree&nbsp;representation.&nbsp;Beautiful&nbsp;Soup<br>
+provides&nbsp;methods&nbsp;and&nbsp;Pythonic&nbsp;idioms&nbsp;that&nbsp;make&nbsp;it&nbsp;easy&nbsp;to&nbsp;navigate,<br>
+search,&nbsp;and&nbsp;modify&nbsp;the&nbsp;parse&nbsp;tree.<br>
+&nbsp;<br>
+Beautiful&nbsp;Soup&nbsp;works&nbsp;with&nbsp;Python&nbsp;2.7&nbsp;and&nbsp;up.&nbsp;It&nbsp;works&nbsp;better&nbsp;if&nbsp;lxml<br>
+and/or&nbsp;html5lib&nbsp;is&nbsp;installed.<br>
+&nbsp;<br>
+For&nbsp;more&nbsp;than&nbsp;you&nbsp;ever&nbsp;wanted&nbsp;to&nbsp;know&nbsp;about&nbsp;Beautiful&nbsp;Soup,&nbsp;see&nbsp;the<br>
+documentation:<br>
+<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/">http://www.crummy.com/software/BeautifulSoup/bs4/doc/</a></tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Package Contents</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="bs4.builder.html"><strong>builder</strong>&nbsp;(package)</a><br>
+<a href="bs4.dammit.html">dammit</a><br>
+</td><td width="25%" valign=top><a href="bs4.diagnose.html">diagnose</a><br>
+<a href="bs4.element.html">element</a><br>
+</td><td width="25%" valign=top><a href="bs4.testing.html">testing</a><br>
+<a href="bs4.tests.html"><strong>tests</strong>&nbsp;(package)</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="bs4.element.html#Tag">bs4.element.Tag</a>(<a href="bs4.element.html#PageElement">bs4.element.PageElement</a>)
+</font></dt><dd>
+<dl>
+<dt><font face="helvetica, arial"><a href="bs4.html#BeautifulSoup">BeautifulSoup</a>
+</font></dt></dl>
+</dd>
+</dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="BeautifulSoup">class <strong>BeautifulSoup</strong></a>(<a href="bs4.element.html#Tag">bs4.element.Tag</a>)</font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;defines&nbsp;the&nbsp;basic&nbsp;interface&nbsp;called&nbsp;by&nbsp;the&nbsp;tree&nbsp;builders.<br>
+&nbsp;<br>
+These&nbsp;methods&nbsp;will&nbsp;be&nbsp;called&nbsp;by&nbsp;the&nbsp;parser:<br>
+&nbsp;&nbsp;<a href="#BeautifulSoup-reset">reset</a>()<br>
+&nbsp;&nbsp;feed(markup)<br>
+&nbsp;<br>
+The&nbsp;tree&nbsp;builder&nbsp;may&nbsp;call&nbsp;these&nbsp;methods&nbsp;from&nbsp;its&nbsp;feed()&nbsp;implementation:<br>
+&nbsp;&nbsp;<a href="#BeautifulSoup-handle_starttag">handle_starttag</a>(name,&nbsp;attrs)&nbsp;#&nbsp;See&nbsp;note&nbsp;about&nbsp;return&nbsp;value<br>
+&nbsp;&nbsp;<a href="#BeautifulSoup-handle_endtag">handle_endtag</a>(name)<br>
+&nbsp;&nbsp;<a href="#BeautifulSoup-handle_data">handle_data</a>(data)&nbsp;#&nbsp;Appends&nbsp;to&nbsp;the&nbsp;current&nbsp;data&nbsp;node<br>
+&nbsp;&nbsp;<a href="#BeautifulSoup-endData">endData</a>(containerClass=NavigableString)&nbsp;#&nbsp;Ends&nbsp;the&nbsp;current&nbsp;data&nbsp;node<br>
+&nbsp;<br>
+No&nbsp;matter&nbsp;how&nbsp;complicated&nbsp;the&nbsp;underlying&nbsp;parser&nbsp;is,&nbsp;you&nbsp;should&nbsp;be<br>
+able&nbsp;to&nbsp;build&nbsp;a&nbsp;tree&nbsp;using&nbsp;'start&nbsp;tag'&nbsp;events,&nbsp;'end&nbsp;tag'&nbsp;events,<br>
+'data'&nbsp;events,&nbsp;and&nbsp;"done&nbsp;with&nbsp;data"&nbsp;events.<br>
+&nbsp;<br>
+If&nbsp;you&nbsp;encounter&nbsp;an&nbsp;empty-element&nbsp;tag&nbsp;(aka&nbsp;a&nbsp;self-closing&nbsp;tag,<br>
+like&nbsp;HTML's&nbsp;&lt;br&gt;&nbsp;tag),&nbsp;call&nbsp;handle_starttag&nbsp;and&nbsp;then<br>
+handle_endtag.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%"><dl><dt>Method resolution order:</dt>
+<dd><a href="bs4.html#BeautifulSoup">BeautifulSoup</a></dd>
+<dd><a href="bs4.element.html#Tag">bs4.element.Tag</a></dd>
+<dd><a href="bs4.element.html#PageElement">bs4.element.PageElement</a></dd>
+<dd><a href="__builtin__.html#object">__builtin__.object</a></dd>
+</dl>
+<hr>
+Methods defined here:<br>
+<dl><dt><a name="BeautifulSoup-__copy__"><strong>__copy__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__getstate__"><strong>__getstate__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__init__"><strong>__init__</strong></a>(self, markup<font color="#909090">=''</font>, features<font color="#909090">=None</font>, builder<font color="#909090">=None</font>, parse_only<font color="#909090">=None</font>, from_encoding<font color="#909090">=None</font>, exclude_encodings<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>The&nbsp;Soup&nbsp;object&nbsp;is&nbsp;initialized&nbsp;as&nbsp;the&nbsp;'root&nbsp;tag',&nbsp;and&nbsp;the<br>
+provided&nbsp;markup&nbsp;(which&nbsp;can&nbsp;be&nbsp;a&nbsp;string&nbsp;or&nbsp;a&nbsp;file-like&nbsp;object)<br>
+is&nbsp;fed&nbsp;into&nbsp;the&nbsp;underlying&nbsp;parser.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-decode"><strong>decode</strong></a>(self, pretty_print<font color="#909090">=False</font>, eventual_encoding<font color="#909090">='utf-8'</font>, formatter<font color="#909090">='minimal'</font>)</dt><dd><tt>Returns&nbsp;a&nbsp;string&nbsp;or&nbsp;Unicode&nbsp;representation&nbsp;of&nbsp;this&nbsp;document.<br>
+To&nbsp;get&nbsp;Unicode,&nbsp;pass&nbsp;None&nbsp;for&nbsp;encoding.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-endData"><strong>endData</strong></a>(self, containerClass<font color="#909090">=&lt;class 'bs4.element.NavigableString'&gt;</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_data"><strong>handle_data</strong></a>(self, data)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_endtag"><strong>handle_endtag</strong></a>(self, name, nsprefix<font color="#909090">=None</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-handle_starttag"><strong>handle_starttag</strong></a>(self, name, namespace, nsprefix, attrs)</dt><dd><tt>Push&nbsp;a&nbsp;start&nbsp;tag&nbsp;on&nbsp;to&nbsp;the&nbsp;stack.<br>
+&nbsp;<br>
+If&nbsp;this&nbsp;method&nbsp;returns&nbsp;None,&nbsp;the&nbsp;tag&nbsp;was&nbsp;rejected&nbsp;by&nbsp;the<br>
+SoupStrainer.&nbsp;You&nbsp;should&nbsp;proceed&nbsp;as&nbsp;if&nbsp;the&nbsp;tag&nbsp;had&nbsp;not&nbsp;occurred<br>
+in&nbsp;the&nbsp;document.&nbsp;For&nbsp;instance,&nbsp;if&nbsp;this&nbsp;was&nbsp;a&nbsp;self-closing&nbsp;tag,<br>
+don't&nbsp;call&nbsp;handle_endtag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-insert_after"><strong>insert_after</strong></a>(self, successor)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-insert_before"><strong>insert_before</strong></a>(self, successor)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-new_string"><strong>new_string</strong></a>(self, s, subclass<font color="#909090">=&lt;class 'bs4.element.NavigableString'&gt;</font>)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;NavigableString&nbsp;associated&nbsp;with&nbsp;this&nbsp;soup.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-new_tag"><strong>new_tag</strong></a>(self, name, namespace<font color="#909090">=None</font>, nsprefix<font color="#909090">=None</font>, **attrs)</dt><dd><tt>Create&nbsp;a&nbsp;new&nbsp;tag&nbsp;associated&nbsp;with&nbsp;this&nbsp;soup.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-object_was_parsed"><strong>object_was_parsed</strong></a>(self, o, parent<font color="#909090">=None</font>, most_recent_element<font color="#909090">=None</font>)</dt><dd><tt>Add&nbsp;an&nbsp;object&nbsp;to&nbsp;the&nbsp;parse&nbsp;tree.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-popTag"><strong>popTag</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-pushTag"><strong>pushTag</strong></a>(self, tag)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-reset"><strong>reset</strong></a>(self)</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>ASCII_SPACES</strong> = ' <font color="#c040c0">\n\t\x0c\r</font>'</dl>
+
+<dl><dt><strong>DEFAULT_BUILDER_FEATURES</strong> = ['html', 'fast']</dl>
+
+<dl><dt><strong>NO_PARSER_SPECIFIED_WARNING</strong> = 'No parser was explicitly specified, so I<font color="#c040c0">\'</font>m using...this:<font color="#c040c0">\n\n</font> BeautifulSoup(YOUR_MARKUP, "%(parser)s")<font color="#c040c0">\n</font>'</dl>
+
+<dl><dt><strong>ROOT_TAG_NAME</strong> = u'[document]'</dl>
+
+<hr>
+Methods inherited from <a href="bs4.element.html#Tag">bs4.element.Tag</a>:<br>
+<dl><dt><a name="BeautifulSoup-__call__"><strong>__call__</strong></a>(self, *args, **kwargs)</dt><dd><tt>Calling&nbsp;a&nbsp;tag&nbsp;like&nbsp;a&nbsp;function&nbsp;is&nbsp;the&nbsp;same&nbsp;as&nbsp;calling&nbsp;its<br>
+<a href="#BeautifulSoup-find_all">find_all</a>()&nbsp;method.&nbsp;Eg.&nbsp;tag('a')&nbsp;returns&nbsp;a&nbsp;list&nbsp;of&nbsp;all&nbsp;the&nbsp;A&nbsp;tags<br>
+found&nbsp;within&nbsp;this&nbsp;tag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__contains__"><strong>__contains__</strong></a>(self, x)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__delitem__"><strong>__delitem__</strong></a>(self, key)</dt><dd><tt>Deleting&nbsp;tag[key]&nbsp;deletes&nbsp;all&nbsp;'key'&nbsp;attributes&nbsp;for&nbsp;the&nbsp;tag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__eq__"><strong>__eq__</strong></a>(self, other)</dt><dd><tt>Returns&nbsp;true&nbsp;iff&nbsp;this&nbsp;tag&nbsp;has&nbsp;the&nbsp;same&nbsp;name,&nbsp;the&nbsp;same&nbsp;attributes,<br>
+and&nbsp;the&nbsp;same&nbsp;contents&nbsp;(recursively)&nbsp;as&nbsp;the&nbsp;given&nbsp;tag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__getattr__"><strong>__getattr__</strong></a>(self, tag)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__getitem__"><strong>__getitem__</strong></a>(self, key)</dt><dd><tt>tag[key]&nbsp;returns&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;'key'&nbsp;attribute&nbsp;for&nbsp;the&nbsp;tag,<br>
+and&nbsp;throws&nbsp;an&nbsp;exception&nbsp;if&nbsp;it's&nbsp;not&nbsp;there.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__hash__"><strong>__hash__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__iter__"><strong>__iter__</strong></a>(self)</dt><dd><tt>Iterating&nbsp;over&nbsp;a&nbsp;tag&nbsp;iterates&nbsp;over&nbsp;its&nbsp;contents.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__len__"><strong>__len__</strong></a>(self)</dt><dd><tt>The&nbsp;length&nbsp;of&nbsp;a&nbsp;tag&nbsp;is&nbsp;the&nbsp;length&nbsp;of&nbsp;its&nbsp;list&nbsp;of&nbsp;contents.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__ne__"><strong>__ne__</strong></a>(self, other)</dt><dd><tt>Returns&nbsp;true&nbsp;iff&nbsp;this&nbsp;tag&nbsp;is&nbsp;not&nbsp;identical&nbsp;to&nbsp;the&nbsp;other&nbsp;tag,<br>
+as&nbsp;defined&nbsp;in&nbsp;__eq__.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__nonzero__"><strong>__nonzero__</strong></a>(self)</dt><dd><tt>A&nbsp;tag&nbsp;is&nbsp;non-None&nbsp;even&nbsp;if&nbsp;it&nbsp;has&nbsp;no&nbsp;contents.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__repr__"><strong>__repr__</strong></a>(self, encoding<font color="#909090">='unicode-escape'</font>)</dt><dd><tt>Renders&nbsp;this&nbsp;tag&nbsp;as&nbsp;a&nbsp;string.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__setitem__"><strong>__setitem__</strong></a>(self, key, value)</dt><dd><tt>Setting&nbsp;tag[key]&nbsp;sets&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;'key'&nbsp;attribute&nbsp;for&nbsp;the<br>
+tag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-__str__"><strong>__str__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-__unicode__"><strong>__unicode__</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-childGenerator"><strong>childGenerator</strong></a>(self)</dt><dd><tt>#&nbsp;Old&nbsp;names&nbsp;for&nbsp;backwards&nbsp;compatibility</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-clear"><strong>clear</strong></a>(self, decompose<font color="#909090">=False</font>)</dt><dd><tt>Extract&nbsp;all&nbsp;children.&nbsp;If&nbsp;decompose&nbsp;is&nbsp;True,&nbsp;decompose&nbsp;instead.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-decode_contents"><strong>decode_contents</strong></a>(self, indent_level<font color="#909090">=None</font>, eventual_encoding<font color="#909090">='utf-8'</font>, formatter<font color="#909090">='minimal'</font>)</dt><dd><tt>Renders&nbsp;the&nbsp;contents&nbsp;of&nbsp;this&nbsp;tag&nbsp;as&nbsp;a&nbsp;Unicode&nbsp;string.<br>
+&nbsp;<br>
+:param&nbsp;indent_level:&nbsp;Each&nbsp;line&nbsp;of&nbsp;the&nbsp;rendering&nbsp;will&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;indented&nbsp;this&nbsp;many&nbsp;spaces.<br>
+&nbsp;<br>
+:param&nbsp;eventual_encoding:&nbsp;The&nbsp;tag&nbsp;is&nbsp;destined&nbsp;to&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;encoded&nbsp;into&nbsp;this&nbsp;encoding.&nbsp;This&nbsp;method&nbsp;is&nbsp;_not_<br>
+&nbsp;&nbsp;&nbsp;responsible&nbsp;for&nbsp;performing&nbsp;that&nbsp;encoding.&nbsp;This&nbsp;information<br>
+&nbsp;&nbsp;&nbsp;is&nbsp;passed&nbsp;in&nbsp;so&nbsp;that&nbsp;it&nbsp;can&nbsp;be&nbsp;substituted&nbsp;in&nbsp;if&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;document&nbsp;contains&nbsp;a&nbsp;&lt;META&gt;&nbsp;tag&nbsp;that&nbsp;mentions&nbsp;the&nbsp;document's<br>
+&nbsp;&nbsp;&nbsp;encoding.<br>
+&nbsp;<br>
+:param&nbsp;formatter:&nbsp;The&nbsp;output&nbsp;formatter&nbsp;responsible&nbsp;for&nbsp;converting<br>
+&nbsp;&nbsp;&nbsp;entities&nbsp;to&nbsp;Unicode&nbsp;characters.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-decompose"><strong>decompose</strong></a>(self)</dt><dd><tt>Recursively&nbsp;destroys&nbsp;the&nbsp;contents&nbsp;of&nbsp;this&nbsp;tree.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-encode"><strong>encode</strong></a>(self, encoding<font color="#909090">='utf-8'</font>, indent_level<font color="#909090">=None</font>, formatter<font color="#909090">='minimal'</font>, errors<font color="#909090">='xmlcharrefreplace'</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-encode_contents"><strong>encode_contents</strong></a>(self, indent_level<font color="#909090">=None</font>, encoding<font color="#909090">='utf-8'</font>, formatter<font color="#909090">='minimal'</font>)</dt><dd><tt>Renders&nbsp;the&nbsp;contents&nbsp;of&nbsp;this&nbsp;tag&nbsp;as&nbsp;a&nbsp;bytestring.<br>
+&nbsp;<br>
+:param&nbsp;indent_level:&nbsp;Each&nbsp;line&nbsp;of&nbsp;the&nbsp;rendering&nbsp;will&nbsp;be<br>
+&nbsp;&nbsp;&nbsp;indented&nbsp;this&nbsp;many&nbsp;spaces.<br>
+&nbsp;<br>
+:param&nbsp;eventual_encoding:&nbsp;The&nbsp;bytestring&nbsp;will&nbsp;be&nbsp;in&nbsp;this&nbsp;encoding.<br>
+&nbsp;<br>
+:param&nbsp;formatter:&nbsp;The&nbsp;output&nbsp;formatter&nbsp;responsible&nbsp;for&nbsp;converting<br>
+&nbsp;&nbsp;&nbsp;entities&nbsp;to&nbsp;Unicode&nbsp;characters.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find"><strong>find</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, recursive<font color="#909090">=True</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Return&nbsp;only&nbsp;the&nbsp;first&nbsp;child&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;matching&nbsp;the&nbsp;given<br>
+criteria.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findAll"><strong>findAll</strong></a> = find_all(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, recursive<font color="#909090">=True</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Extracts&nbsp;a&nbsp;list&nbsp;of&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;objects&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria.&nbsp;&nbsp;You&nbsp;can&nbsp;specify&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;and&nbsp;any<br>
+attributes&nbsp;you&nbsp;want&nbsp;the&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;to&nbsp;have.<br>
+&nbsp;<br>
+The&nbsp;value&nbsp;of&nbsp;a&nbsp;key-value&nbsp;pair&nbsp;in&nbsp;the&nbsp;'attrs'&nbsp;map&nbsp;can&nbsp;be&nbsp;a<br>
+string,&nbsp;a&nbsp;list&nbsp;of&nbsp;strings,&nbsp;a&nbsp;regular&nbsp;expression&nbsp;object,&nbsp;or&nbsp;a<br>
+callable&nbsp;that&nbsp;takes&nbsp;a&nbsp;string&nbsp;and&nbsp;returns&nbsp;whether&nbsp;or&nbsp;not&nbsp;the<br>
+string&nbsp;matches&nbsp;for&nbsp;some&nbsp;custom&nbsp;definition&nbsp;of&nbsp;'matches'.&nbsp;The<br>
+same&nbsp;is&nbsp;true&nbsp;of&nbsp;the&nbsp;tag&nbsp;name.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findChild"><strong>findChild</strong></a> = find(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, recursive<font color="#909090">=True</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Return&nbsp;only&nbsp;the&nbsp;first&nbsp;child&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;matching&nbsp;the&nbsp;given<br>
+criteria.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findChildren"><strong>findChildren</strong></a> = find_all(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, recursive<font color="#909090">=True</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Extracts&nbsp;a&nbsp;list&nbsp;of&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;objects&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria.&nbsp;&nbsp;You&nbsp;can&nbsp;specify&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;and&nbsp;any<br>
+attributes&nbsp;you&nbsp;want&nbsp;the&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;to&nbsp;have.<br>
+&nbsp;<br>
+The&nbsp;value&nbsp;of&nbsp;a&nbsp;key-value&nbsp;pair&nbsp;in&nbsp;the&nbsp;'attrs'&nbsp;map&nbsp;can&nbsp;be&nbsp;a<br>
+string,&nbsp;a&nbsp;list&nbsp;of&nbsp;strings,&nbsp;a&nbsp;regular&nbsp;expression&nbsp;object,&nbsp;or&nbsp;a<br>
+callable&nbsp;that&nbsp;takes&nbsp;a&nbsp;string&nbsp;and&nbsp;returns&nbsp;whether&nbsp;or&nbsp;not&nbsp;the<br>
+string&nbsp;matches&nbsp;for&nbsp;some&nbsp;custom&nbsp;definition&nbsp;of&nbsp;'matches'.&nbsp;The<br>
+same&nbsp;is&nbsp;true&nbsp;of&nbsp;the&nbsp;tag&nbsp;name.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_all"><strong>find_all</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, recursive<font color="#909090">=True</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Extracts&nbsp;a&nbsp;list&nbsp;of&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;objects&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria.&nbsp;&nbsp;You&nbsp;can&nbsp;specify&nbsp;the&nbsp;name&nbsp;of&nbsp;the&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;and&nbsp;any<br>
+attributes&nbsp;you&nbsp;want&nbsp;the&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;to&nbsp;have.<br>
+&nbsp;<br>
+The&nbsp;value&nbsp;of&nbsp;a&nbsp;key-value&nbsp;pair&nbsp;in&nbsp;the&nbsp;'attrs'&nbsp;map&nbsp;can&nbsp;be&nbsp;a<br>
+string,&nbsp;a&nbsp;list&nbsp;of&nbsp;strings,&nbsp;a&nbsp;regular&nbsp;expression&nbsp;object,&nbsp;or&nbsp;a<br>
+callable&nbsp;that&nbsp;takes&nbsp;a&nbsp;string&nbsp;and&nbsp;returns&nbsp;whether&nbsp;or&nbsp;not&nbsp;the<br>
+string&nbsp;matches&nbsp;for&nbsp;some&nbsp;custom&nbsp;definition&nbsp;of&nbsp;'matches'.&nbsp;The<br>
+same&nbsp;is&nbsp;true&nbsp;of&nbsp;the&nbsp;tag&nbsp;name.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-get"><strong>get</strong></a>(self, key, default<font color="#909090">=None</font>)</dt><dd><tt>Returns&nbsp;the&nbsp;value&nbsp;of&nbsp;the&nbsp;'key'&nbsp;attribute&nbsp;for&nbsp;the&nbsp;tag,&nbsp;or<br>
+the&nbsp;value&nbsp;given&nbsp;for&nbsp;'default'&nbsp;if&nbsp;it&nbsp;doesn't&nbsp;have&nbsp;that<br>
+attribute.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-getText"><strong>getText</strong></a> = get_text(self, separator<font color="#909090">=u''</font>, strip<font color="#909090">=False</font>, types<font color="#909090">=(&lt;class 'bs4.element.NavigableString'&gt;, &lt;class 'bs4.element.CData'&gt;)</font>)</dt><dd><tt>Get&nbsp;all&nbsp;child&nbsp;strings,&nbsp;concatenated&nbsp;using&nbsp;the&nbsp;given&nbsp;separator.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-get_attribute_list"><strong>get_attribute_list</strong></a>(self, key, default<font color="#909090">=None</font>)</dt><dd><tt>The&nbsp;same&nbsp;as&nbsp;<a href="#BeautifulSoup-get">get</a>(),&nbsp;but&nbsp;always&nbsp;returns&nbsp;a&nbsp;list.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-get_text"><strong>get_text</strong></a>(self, separator<font color="#909090">=u''</font>, strip<font color="#909090">=False</font>, types<font color="#909090">=(&lt;class 'bs4.element.NavigableString'&gt;, &lt;class 'bs4.element.CData'&gt;)</font>)</dt><dd><tt>Get&nbsp;all&nbsp;child&nbsp;strings,&nbsp;concatenated&nbsp;using&nbsp;the&nbsp;given&nbsp;separator.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-has_attr"><strong>has_attr</strong></a>(self, key)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-has_key"><strong>has_key</strong></a>(self, key)</dt><dd><tt>This&nbsp;was&nbsp;kind&nbsp;of&nbsp;misleading&nbsp;because&nbsp;<a href="#BeautifulSoup-has_key">has_key</a>()&nbsp;(attributes)<br>
+was&nbsp;different&nbsp;from&nbsp;__in__&nbsp;(contents).&nbsp;<a href="#BeautifulSoup-has_key">has_key</a>()&nbsp;is&nbsp;gone&nbsp;in<br>
+Python&nbsp;3,&nbsp;anyway.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-index"><strong>index</strong></a>(self, element)</dt><dd><tt>Find&nbsp;the&nbsp;index&nbsp;of&nbsp;a&nbsp;child&nbsp;by&nbsp;identity,&nbsp;not&nbsp;value.&nbsp;Avoids&nbsp;issues&nbsp;with<br>
+tag.contents.<a href="#BeautifulSoup-index">index</a>(element)&nbsp;getting&nbsp;the&nbsp;index&nbsp;of&nbsp;equal&nbsp;elements.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-prettify"><strong>prettify</strong></a>(self, encoding<font color="#909090">=None</font>, formatter<font color="#909090">='minimal'</font>)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-recursiveChildGenerator"><strong>recursiveChildGenerator</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-renderContents"><strong>renderContents</strong></a>(self, encoding<font color="#909090">='utf-8'</font>, prettyPrint<font color="#909090">=False</font>, indentLevel<font color="#909090">=0</font>)</dt><dd><tt>#&nbsp;Old&nbsp;method&nbsp;for&nbsp;BS3&nbsp;compatibility</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-select"><strong>select</strong></a>(self, selector, _candidate_generator<font color="#909090">=None</font>, limit<font color="#909090">=None</font>)</dt><dd><tt>Perform&nbsp;a&nbsp;CSS&nbsp;selection&nbsp;operation&nbsp;on&nbsp;the&nbsp;current&nbsp;element.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-select_one"><strong>select_one</strong></a>(self, selector)</dt><dd><tt>Perform&nbsp;a&nbsp;CSS&nbsp;selection&nbsp;operation&nbsp;on&nbsp;the&nbsp;current&nbsp;element.</tt></dd></dl>
+
+<hr>
+Data descriptors inherited from <a href="bs4.element.html#Tag">bs4.element.Tag</a>:<br>
+<dl><dt><strong>children</strong></dt>
+</dl>
+<dl><dt><strong>descendants</strong></dt>
+</dl>
+<dl><dt><strong>isSelfClosing</strong></dt>
+<dd><tt>Is&nbsp;this&nbsp;tag&nbsp;an&nbsp;empty-element&nbsp;tag?&nbsp;(aka&nbsp;a&nbsp;self-closing&nbsp;tag)<br>
+&nbsp;<br>
+A&nbsp;tag&nbsp;that&nbsp;has&nbsp;contents&nbsp;is&nbsp;never&nbsp;an&nbsp;empty-element&nbsp;tag.<br>
+&nbsp;<br>
+A&nbsp;tag&nbsp;that&nbsp;has&nbsp;no&nbsp;contents&nbsp;may&nbsp;or&nbsp;may&nbsp;not&nbsp;be&nbsp;an&nbsp;empty-element<br>
+tag.&nbsp;It&nbsp;depends&nbsp;on&nbsp;the&nbsp;builder&nbsp;used&nbsp;to&nbsp;create&nbsp;the&nbsp;tag.&nbsp;If&nbsp;the<br>
+builder&nbsp;has&nbsp;a&nbsp;designated&nbsp;list&nbsp;of&nbsp;empty-element&nbsp;tags,&nbsp;then&nbsp;only<br>
+a&nbsp;tag&nbsp;whose&nbsp;name&nbsp;shows&nbsp;up&nbsp;in&nbsp;that&nbsp;list&nbsp;is&nbsp;considered&nbsp;an<br>
+empty-element&nbsp;tag.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;builder&nbsp;has&nbsp;no&nbsp;designated&nbsp;list&nbsp;of&nbsp;empty-element&nbsp;tags,<br>
+then&nbsp;any&nbsp;tag&nbsp;with&nbsp;no&nbsp;contents&nbsp;is&nbsp;an&nbsp;empty-element&nbsp;tag.</tt></dd>
+</dl>
+<dl><dt><strong>is_empty_element</strong></dt>
+<dd><tt>Is&nbsp;this&nbsp;tag&nbsp;an&nbsp;empty-element&nbsp;tag?&nbsp;(aka&nbsp;a&nbsp;self-closing&nbsp;tag)<br>
+&nbsp;<br>
+A&nbsp;tag&nbsp;that&nbsp;has&nbsp;contents&nbsp;is&nbsp;never&nbsp;an&nbsp;empty-element&nbsp;tag.<br>
+&nbsp;<br>
+A&nbsp;tag&nbsp;that&nbsp;has&nbsp;no&nbsp;contents&nbsp;may&nbsp;or&nbsp;may&nbsp;not&nbsp;be&nbsp;an&nbsp;empty-element<br>
+tag.&nbsp;It&nbsp;depends&nbsp;on&nbsp;the&nbsp;builder&nbsp;used&nbsp;to&nbsp;create&nbsp;the&nbsp;tag.&nbsp;If&nbsp;the<br>
+builder&nbsp;has&nbsp;a&nbsp;designated&nbsp;list&nbsp;of&nbsp;empty-element&nbsp;tags,&nbsp;then&nbsp;only<br>
+a&nbsp;tag&nbsp;whose&nbsp;name&nbsp;shows&nbsp;up&nbsp;in&nbsp;that&nbsp;list&nbsp;is&nbsp;considered&nbsp;an<br>
+empty-element&nbsp;tag.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;builder&nbsp;has&nbsp;no&nbsp;designated&nbsp;list&nbsp;of&nbsp;empty-element&nbsp;tags,<br>
+then&nbsp;any&nbsp;tag&nbsp;with&nbsp;no&nbsp;contents&nbsp;is&nbsp;an&nbsp;empty-element&nbsp;tag.</tt></dd>
+</dl>
+<dl><dt><strong>parserClass</strong></dt>
+</dl>
+<dl><dt><strong>string</strong></dt>
+<dd><tt>Convenience&nbsp;property&nbsp;to&nbsp;get&nbsp;the&nbsp;single&nbsp;string&nbsp;within&nbsp;this&nbsp;tag.<br>
+&nbsp;<br>
+:Return:&nbsp;If&nbsp;this&nbsp;tag&nbsp;has&nbsp;a&nbsp;single&nbsp;string&nbsp;child,&nbsp;return&nbsp;value<br>
+&nbsp;is&nbsp;that&nbsp;string.&nbsp;If&nbsp;this&nbsp;tag&nbsp;has&nbsp;no&nbsp;children,&nbsp;or&nbsp;more&nbsp;than&nbsp;one<br>
+&nbsp;child,&nbsp;return&nbsp;value&nbsp;is&nbsp;None.&nbsp;If&nbsp;this&nbsp;tag&nbsp;has&nbsp;one&nbsp;child&nbsp;tag,<br>
+&nbsp;return&nbsp;value&nbsp;is&nbsp;the&nbsp;'string'&nbsp;attribute&nbsp;of&nbsp;the&nbsp;child&nbsp;tag,<br>
+&nbsp;recursively.</tt></dd>
+</dl>
+<dl><dt><strong>strings</strong></dt>
+<dd><tt>Yield&nbsp;all&nbsp;strings&nbsp;of&nbsp;certain&nbsp;classes,&nbsp;possibly&nbsp;stripping&nbsp;them.<br>
+&nbsp;<br>
+By&nbsp;default,&nbsp;yields&nbsp;only&nbsp;NavigableString&nbsp;and&nbsp;CData&nbsp;objects.&nbsp;So<br>
+no&nbsp;comments,&nbsp;processing&nbsp;instructions,&nbsp;etc.</tt></dd>
+</dl>
+<dl><dt><strong>stripped_strings</strong></dt>
+</dl>
+<dl><dt><strong>text</strong></dt>
+<dd><tt>Get&nbsp;all&nbsp;child&nbsp;strings,&nbsp;concatenated&nbsp;using&nbsp;the&nbsp;given&nbsp;separator.</tt></dd>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="bs4.element.html#Tag">bs4.element.Tag</a>:<br>
+<dl><dt><strong>quoted_colon</strong> = &lt;_sre.SRE_Pattern object&gt;</dl>
+
+<hr>
+Methods inherited from <a href="bs4.element.html#PageElement">bs4.element.PageElement</a>:<br>
+<dl><dt><a name="BeautifulSoup-append"><strong>append</strong></a>(self, tag)</dt><dd><tt>Appends&nbsp;the&nbsp;given&nbsp;tag&nbsp;to&nbsp;the&nbsp;contents&nbsp;of&nbsp;this&nbsp;tag.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-extract"><strong>extract</strong></a>(self)</dt><dd><tt>Destructively&nbsp;rips&nbsp;this&nbsp;element&nbsp;out&nbsp;of&nbsp;the&nbsp;tree.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-fetchNextSiblings"><strong>fetchNextSiblings</strong></a> = find_next_siblings(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;siblings&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria&nbsp;and&nbsp;appear&nbsp;after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-fetchParents"><strong>fetchParents</strong></a> = find_parents(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;parents&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-fetchPrevious"><strong>fetchPrevious</strong></a> = find_all_previous(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;all&nbsp;items&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and&nbsp;appear<br>
+before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-fetchPreviousSiblings"><strong>fetchPreviousSiblings</strong></a> = find_previous_siblings(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;siblings&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria&nbsp;and&nbsp;appear&nbsp;before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findAllNext"><strong>findAllNext</strong></a> = find_all_next(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;all&nbsp;items&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and&nbsp;appear<br>
+after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findAllPrevious"><strong>findAllPrevious</strong></a> = find_all_previous(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;all&nbsp;items&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and&nbsp;appear<br>
+before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findNext"><strong>findNext</strong></a> = find_next(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;first&nbsp;item&nbsp;that&nbsp;matches&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and<br>
+appears&nbsp;after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findNextSibling"><strong>findNextSibling</strong></a> = find_next_sibling(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;closest&nbsp;sibling&nbsp;to&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;matches&nbsp;the<br>
+given&nbsp;criteria&nbsp;and&nbsp;appears&nbsp;after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findNextSiblings"><strong>findNextSiblings</strong></a> = find_next_siblings(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;siblings&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria&nbsp;and&nbsp;appear&nbsp;after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findParent"><strong>findParent</strong></a> = find_parent(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;closest&nbsp;parent&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;matches&nbsp;the&nbsp;given<br>
+criteria.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findParents"><strong>findParents</strong></a> = find_parents(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;parents&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findPrevious"><strong>findPrevious</strong></a> = find_previous(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;first&nbsp;item&nbsp;that&nbsp;matches&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and<br>
+appears&nbsp;before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findPreviousSibling"><strong>findPreviousSibling</strong></a> = find_previous_sibling(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;closest&nbsp;sibling&nbsp;to&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;matches&nbsp;the<br>
+given&nbsp;criteria&nbsp;and&nbsp;appears&nbsp;before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-findPreviousSiblings"><strong>findPreviousSiblings</strong></a> = find_previous_siblings(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;siblings&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria&nbsp;and&nbsp;appear&nbsp;before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_all_next"><strong>find_all_next</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;all&nbsp;items&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and&nbsp;appear<br>
+after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_all_previous"><strong>find_all_previous</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;all&nbsp;items&nbsp;that&nbsp;match&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and&nbsp;appear<br>
+before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_next"><strong>find_next</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;first&nbsp;item&nbsp;that&nbsp;matches&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and<br>
+appears&nbsp;after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_next_sibling"><strong>find_next_sibling</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;closest&nbsp;sibling&nbsp;to&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;matches&nbsp;the<br>
+given&nbsp;criteria&nbsp;and&nbsp;appears&nbsp;after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_next_siblings"><strong>find_next_siblings</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;siblings&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria&nbsp;and&nbsp;appear&nbsp;after&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_parent"><strong>find_parent</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;closest&nbsp;parent&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;matches&nbsp;the&nbsp;given<br>
+criteria.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_parents"><strong>find_parents</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;parents&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_previous"><strong>find_previous</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;first&nbsp;item&nbsp;that&nbsp;matches&nbsp;the&nbsp;given&nbsp;criteria&nbsp;and<br>
+appears&nbsp;before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_previous_sibling"><strong>find_previous_sibling</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;closest&nbsp;sibling&nbsp;to&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;matches&nbsp;the<br>
+given&nbsp;criteria&nbsp;and&nbsp;appears&nbsp;before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-find_previous_siblings"><strong>find_previous_siblings</strong></a>(self, name<font color="#909090">=None</font>, attrs<font color="#909090">={}</font>, text<font color="#909090">=None</font>, limit<font color="#909090">=None</font>, **kwargs)</dt><dd><tt>Returns&nbsp;the&nbsp;siblings&nbsp;of&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;that&nbsp;match&nbsp;the&nbsp;given<br>
+criteria&nbsp;and&nbsp;appear&nbsp;before&nbsp;this&nbsp;<a href="bs4.element.html#Tag">Tag</a>&nbsp;in&nbsp;the&nbsp;document.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-format_string"><strong>format_string</strong></a>(self, s, formatter<font color="#909090">='minimal'</font>)</dt><dd><tt>Format&nbsp;the&nbsp;given&nbsp;string&nbsp;using&nbsp;the&nbsp;given&nbsp;formatter.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-insert"><strong>insert</strong></a>(self, position, new_child)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-nextGenerator"><strong>nextGenerator</strong></a>(self)</dt><dd><tt>#&nbsp;Old&nbsp;non-property&nbsp;versions&nbsp;of&nbsp;the&nbsp;generators,&nbsp;for&nbsp;backwards<br>
+#&nbsp;compatibility&nbsp;with&nbsp;BS3.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-nextSiblingGenerator"><strong>nextSiblingGenerator</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-parentGenerator"><strong>parentGenerator</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-previousGenerator"><strong>previousGenerator</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-previousSiblingGenerator"><strong>previousSiblingGenerator</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-replaceWith"><strong>replaceWith</strong></a> = replace_with(self, replace_with)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-replaceWithChildren"><strong>replaceWithChildren</strong></a> = unwrap(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-replace_with"><strong>replace_with</strong></a>(self, replace_with)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-replace_with_children"><strong>replace_with_children</strong></a> = unwrap(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-setup"><strong>setup</strong></a>(self, parent<font color="#909090">=None</font>, previous_element<font color="#909090">=None</font>, next_element<font color="#909090">=None</font>, previous_sibling<font color="#909090">=None</font>, next_sibling<font color="#909090">=None</font>)</dt><dd><tt>Sets&nbsp;up&nbsp;the&nbsp;initial&nbsp;relations&nbsp;between&nbsp;this&nbsp;element&nbsp;and<br>
+other&nbsp;elements.</tt></dd></dl>
+
+<dl><dt><a name="BeautifulSoup-unwrap"><strong>unwrap</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="BeautifulSoup-wrap"><strong>wrap</strong></a>(self, wrap_inside)</dt></dl>
+
+<hr>
+Data descriptors inherited from <a href="bs4.element.html#PageElement">bs4.element.PageElement</a>:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><tt>dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><tt>list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</tt></dd>
+</dl>
+<dl><dt><strong>next</strong></dt>
+</dl>
+<dl><dt><strong>nextSibling</strong></dt>
+</dl>
+<dl><dt><strong>next_elements</strong></dt>
+</dl>
+<dl><dt><strong>next_siblings</strong></dt>
+</dl>
+<dl><dt><strong>parents</strong></dt>
+</dl>
+<dl><dt><strong>previous</strong></dt>
+</dl>
+<dl><dt><strong>previousSibling</strong></dt>
+</dl>
+<dl><dt><strong>previous_elements</strong></dt>
+</dl>
+<dl><dt><strong>previous_siblings</strong></dt>
+</dl>
+<hr>
+Data and other attributes inherited from <a href="bs4.element.html#PageElement">bs4.element.PageElement</a>:<br>
+<dl><dt><strong>HTML_FORMATTERS</strong> = {None: None, 'html': &lt;bound method type.substitute_html of &lt;class 'bs4.element.HTMLAwareEntitySubstitution'&gt;&gt;, 'minimal': &lt;bound method type.substitute_xml of &lt;class 'bs4.element.HTMLAwareEntitySubstitution'&gt;&gt;}</dl>
+
+<dl><dt><strong>XML_FORMATTERS</strong> = {None: None, 'html': &lt;bound method type.substitute_html of &lt;class 'bs4.dammit.EntitySubstitution'&gt;&gt;, 'minimal': &lt;bound method type.substitute_xml of &lt;class 'bs4.dammit.EntitySubstitution'&gt;&gt;}</dl>
+
+<dl><dt><strong>attribselect_re</strong> = &lt;_sre.SRE_Pattern object&gt;</dl>
+
+<dl><dt><strong>tag_name_re</strong> = &lt;_sre.SRE_Pattern object&gt;</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__all__</strong> = ['BeautifulSoup']<br>
+<strong>__author__</strong> = 'Leonard Richardson (leonardr@segfault.org)'<br>
+<strong>__copyright__</strong> = 'Copyright (c) 2004-2017 Leonard Richardson'<br>
+<strong>__license__</strong> = 'MIT'<br>
+<strong>__version__</strong> = '4.6.0'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Leonard&nbsp;Richardson&nbsp;(leonardr@segfault.org)</td></tr></table>
+</body></html>
