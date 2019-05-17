@@ -1,0 +1,27 @@
+CREATE TABLE feature_set (id serial PRIMARY KEY,url varchar,error varchar,dataset varchar,article float,shop float,help float,portrayal_individual float,others float);
+
+
+
+__tablename__ = 'ranks'
+
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(), unique=True)
+    redirected = db.Column(db.String())
+    error = db.Column(db.String())
+    alexa = db.Column(db.Integer())
+    wot_confidence = db.Column(db.Integer())
+    wot_reputation = db.Column(db.Integer())
+    alexa = db.Column(db.Integer())
+    wot = db.Column(db.FLOAT())	
+
+
+
+CREATE TABLE ranks (id serial PRIMARY KEY,url varchar,redirected varchar,error varchar,wot_confidence integer,wot_reputation integer,alexa integer,wot float);
+CREATE TABLE feature_set (id serial PRIMARY KEY,url varchar,error varchar,dataset varchar,article float,shop float,help float,portrayal_individual float,others float);
+
+
+
+
+
+
+http://localhost:5050/start?site=&genre=Shop&other-genre=&adsPerc=0&brokenlinks=true&brokenlinksPerc=9&langcount=true&langcountPerc=9.09&domain=true&domainPerc=9.09&inlinks=true&inlinksPerc=9.09&lastmod=true&lastmodPerc=9.09&hyperlinks=true&hyperlinksPerc=9.09&outlinks=true&outlinksPerc=9.09&misspelled=true&misspelledPerc=9.09&imgratio=true&imgratioPerc=9.09&responsive=true&responsivePerc=9.09&pageloadtime=true&pageloadtimePerc=9.09&g-recaptcha-response=

@@ -1,6 +1,7 @@
-from dotenv import load_dotenv
+import dotenv
 from flask import render_template
 from flask import request
+# from flask import jsonify
 from utils.databases import Features
 from utils.essentials import app
 from utils.essentials import Database
@@ -15,7 +16,7 @@ import subprocess
 import time
 
 
-load_dotenv(dotenv_path='.env')
+dotenv.load_dotenv(dotenv_path='.env')
 logger = logging.getLogger('WEBCred.app')
 logging.basicConfig(
     filename='log/logging.log',
@@ -59,7 +60,18 @@ def start():
 
     data = collectData(request)
 
-    return data
+    print ("error after this")
+
+    print ("data            ",data)
+
+    # try:
+    json_data = json.dumps(data, default=lambda o: '<not serializable>')
+    # except:
+        # json_data = data
+    
+    print ("json_data       ",json_data)
+
+    return json_data
 
 
 @app.route("/")
@@ -79,6 +91,11 @@ def collectData(request):
         print ("assess")
         database = Database(Features)
         dt = Webcred(database, request)
+        print ()
+        print ()
+        print ("dt                         ",dt)
+        print ()
+        print ()
         data = dt.assess()
 
     except WebcredError as e:

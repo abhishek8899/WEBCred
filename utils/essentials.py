@@ -142,9 +142,12 @@ class MyThread(threading.Thread):
                 )
 
             # print("Exception type : %s " % ex_type.__name__)
-            if not ex_value.message == 'Response 202':
-                logger.info('{}:{}'.format(ex_type.__name__, ex_value))
-                logger.info(stack_trace)
+            try:
+                if not ex_value.message == 'Response 202':
+                    logger.info('{}:{}'.format(ex_type.__name__, ex_value))
+                    logger.info(stack_trace)
+            except:
+                pass
 
             self.result = None
 
@@ -170,6 +173,9 @@ class Database(object):
 
     def filter(self, name, value):
 
+        # print ("---------------------------------------in filter---------------------------------------")
+        # print ("name ",name,"           database ",self.database)
+        # print ()
         return self.db.session.query(
             self.database
         ).filter(getattr(self.database, name) == value)
@@ -258,7 +264,12 @@ class Database(object):
 
     def getdata(self, name=None, value=None):
 
-        return self.filter(name, value).all()[0].__dict__
+        # print ("********************************************************************************************")
+        a=self.filter(name, value).all()[0].__dict__
+        print (a)
+        # print ("********************************************************************************************")
+        # return self.filter(name, value).all()[0].__dict__
+        return a
 
     def getcolumns(self):
 

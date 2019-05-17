@@ -1,5 +1,6 @@
 README.md
 setup.cfg
+setup.py
 WEBCred.egg-info/PKG-INFO
 WEBCred.egg-info/SOURCES.txt
 WEBCred.egg-info/dependency_links.txt
@@ -13,6 +14,7 @@ kit/script.py
 kit/similarity_score.py
 kit/weightageanalysis.py
 utils/__init__.py
+utils/databases.py
 utils/essentials.py
 utils/pipeline.py
 utils/urls.py

@@ -192,8 +192,8 @@ class Normalize(object):
         if not self.dataList:
             dataList = []
             NumberTypes = (
-                types.IntType, types.LongType, types.FloatType,
-                types.ComplexType
+            # types.IntType, types.LongType, types.FloatType, types.ComplexType         #python 2
+            int, float, complex                                                         #python 3
             )
             for element in self.data:
                 if element.get(self.name) and isinstance(element[self.name],
@@ -209,7 +209,8 @@ class Normalize(object):
 
     def normalize(self):
         NumberTypes = (
-            types.IntType, types.LongType, types.FloatType, types.ComplexType
+            # types.IntType, types.LongType, types.FloatType, types.ComplexType         #python 2
+            int, float, complex                                                         #python 3
         )
         for index in range(len(self.data)):
             if isinstance(self.data[index].get(self.name), NumberTypes):
@@ -221,7 +222,8 @@ class Normalize(object):
 
     def getnormalizedScore(self, value):
         NumberTypes = (
-            types.IntType, types.LongType, types.FloatType, types.ComplexType
+            # types.IntType, types.LongType, types.FloatType, types.ComplexType         #python 2
+            int, float, complex                                                         #python 3
         )
         if isinstance(value, NumberTypes):
             return self.getscore(value)
@@ -390,7 +392,10 @@ class Urlattributes(object):
                 normalizedData[k[0]] = Normalize(data, k)
                 data = normalizedData[k[0]].normalize()
 
-            it = normalizeCategory['misc'].items()[0]
+            it = normalizeCategory['misc'].items()
+            for k in it:
+                tmp_it = k[0]
+            it = tmp_it
             # summation of hyperlinks_attribute values
             for index in range(len(data)):
                 if data[index].get(it[0]):
