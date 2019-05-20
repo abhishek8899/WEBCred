@@ -110,11 +110,21 @@ class Webcred(object):
 
             data = self.extractValue(req, apiList, data, site)
 
+
             # HACK 13 is calculated number, refer to index.html, where new
             # dimensions are dynamically added
             # create percentage dictionary
             number = 13
             # TODO come back and do this properly
+
+            print ()
+            print ()
+            print ()
+            print("no error 1")
+            print ()
+            print ()
+            print ()
+
             while True:
                 dim = "dimension" + str(number)
                 API = "api" + str(number)
@@ -134,12 +144,23 @@ class Webcred(object):
                     break
                 number += 1
 
+            print ()
+            print ()
+            print ()
+            print("no error 2")
+            print ()
+            print ()
+            print ()
+
             data = webcredScore(data, percentage)
 
             data['error'] = None
+            print ("data1error                                    ",data['error'])
 
         except WebcredError as e:
             data['error'] = e.message
+            print ('python error')
+            print()
             dump = False
         except Exception:
             # Get current system exception
@@ -186,6 +207,10 @@ class Webcred(object):
             logger.debug(data['url'])
 
             logger.debug('Time = {}'.format(now))
+
+
+            print ("data2error                                    ",data['error'])
+
 
             return data
 
@@ -305,6 +330,8 @@ def webcredScore(data, percentage):
             # print("Exception type : %s " % ex_type.__name__)
             logger.info(ex_value)
             logger.debug(stack_trace)
+
+    print (score)
 
     data["webcred_score"] = score / 100
 
